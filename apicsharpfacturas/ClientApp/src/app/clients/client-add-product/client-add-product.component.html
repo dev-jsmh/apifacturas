@@ -1,0 +1,50 @@
+
+<div class="container-fluid">
+    <a routerLink="../details"> volver</a>
+    <h3>Agregar productos al cliente </h3>
+</div>
+
+<div class="container mt-5">
+    <div class="mb-3">
+        <p><span style="font-weight: bold;">Id: </span>{{ currentClient.id }}</p>
+        <p><span style="font-weight: bold;">Nombres:</span> {{ currentClient.names }}</p>
+        <p><span style="font-weight: bold;">Apellidos:</span> {{ currentClient.lastnames }}</p>
+    </div>
+
+<h4 class="mt-5">Productos Disponibles</h4>
+
+<div style="height: 380px; overflow-y: scroll;">
+
+    <table class="table table-stripe table-dark" >
+        <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Modelo</th>
+                <th scope="col">precio</th>
+                <th scope="col">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let product of productList" scope="row">
+                <td>{{ product.id }}</td> 
+                <td>{{ product.name }}</td> 
+                <td>{{ product.model }}</td> 
+                <td>{{ product.price }}</td> 
+                <td>
+                    <button>+</button>
+                    <span></span>
+                    <button> - </button>
+                </td>
+           
+    
+            </tr>
+        </tbody>
+    </table>
+
+</div>
+
+
+</div>
+
+

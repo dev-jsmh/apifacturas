@@ -1,0 +1,24 @@
+<div class="container-fluid">
+    <a routerLink="../"> <- </a>
+            <h3>Añadir cliente</h3>
+</div>
+
+<div class="container">
+    <form class="col-md-6" [formGroup]="createClientForm" (ngSubmit)="onSubmit()">
+
+        <div class="mb-3">
+            <label for="">Nombres</label>
+            <input class="form-control" type="text" formControlName="names">
+        </div>
+        <div class="mb-3">
+            <label for="">Apellidos</label>
+            <input class="form-control" type="text" formControlName="lastnames">
+        </div>
+        <div class="mb-3">
+           <button class="btn btn-secondary mx-1" type="submit" [disabled]="!createClientForm.valid" >
+            guardar
+           </button>
+           <a class="btn btn-primary mx-1" routerLink="../">cancelar</a>
+        </div>
+    </form>
+</div>

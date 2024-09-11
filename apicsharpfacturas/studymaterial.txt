@@ -1,0 +1,41 @@
+
+
+resources for creating a CRUD with angular and C# .NET + EntityFrameworkCore
+
+
+
+urls 
+
+Tutorial: Creación de una API web con ASP.NET Core
+
+https://learn.microsoft.com/es-es/aspnet/core/tutorials/first-web-api?view=aspnetcore-8.0&tabs=visual-
+
+
+
+.NET 6.0 - Connect to MySQL Database with Entity Framework Core
+
+https://jasonwatmore.com/post/2022/03/25/net-6-connect-to-mysql-database-with-entity-framework-core
+
+
+
+Tutorial: Connect to MySQL with Entity Framework Core
+
+https://mysqlconnector.net/tutorials/efcore/
+
+
+Your first migration in .Net on mac
+
+https://medium.com/@ashok.kumar_25706/your-first-migration-in-net-on-mac-229379bd47db
+
+
+The entity type 'Access' requires a primary key to be defined. If you intended to use a keyless entity type call 'HasNoKey()'
+
+https://stackoverflow.com/questions/60600835/the-entity-type-access-requires-a-primary-key-to-be-defined-if-you-intended-t
+
+
+EF Core Error - No project was found. Change the current working directory or use the --project option
+
+https://stackoverflow.com/questions/42991736/ef-core-error-no-project-was-found-change-the-current-working-directory-or-us
+
+
+

@@ -1,0 +1,22 @@
+<h3>Detalles Del Producto</h3>
+
+<a routerLink="../../">
+    <-
+</a>
+
+
+<div class="container">
+
+    <div class="m-3"> 
+        <p><span style="font-weight: bold;">Id: </span>{{ currentProduct.id }}</p>
+        <p><span style="font-weight: bold;" >Nombre:</span> {{ currentProduct.name }}</p>
+        <p><span style="font-weight: bold;" >Modelo:</span> {{ currentProduct.model }}</p>
+        <p><span style="font-weight: bold;" >Precio:</span> ${{ currentProduct.price }}</p>
+        <p><span style="font-weight: bold;" >Stock:</span> {{ currentProduct.stock }}</p>
+    </div>
+    <div class="mb-3">
+        <a class="btn btn-secondary mx-3" routerLink="../update">Actualizar</a>
+        <a class="btn btn-primary mx-3" routerLink="../../">volver</a>
+    </div>
+   
+</div>

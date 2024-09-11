@@ -1,0 +1,79 @@
+<div class="container-fluid">
+
+    <a routerLink="../details"><- </a>
+</div>
+
+
+<div class="container">
+
+    <h3>Actualizar Datos Producto</h3>
+
+    <form *ngIf="isLoaded" [formGroup]="updateProductForm" (ngSubmit)="onSubmit()" class="col-md-6">
+
+        <div class="mb-3">
+            <label>Id</label>
+            <input class="form-control" value="{{productId}}">
+        </div>
+        <div class="mb-3">
+            <label>Nombre</label>
+            <input class="form-control" type="text" formControlName="name">
+            <div *ngIf="updateProductForm.get('name')?.invalid && updateProductForm.get('name')?.touched"
+                class="text-danger">
+                El nombre es obligatorio
+            </div>
+        </div>
+        <div class="mb-3">
+            <label>Modelo</label>
+            <input class="form-control" type="text" formControlName="model">
+            <div *ngIf="updateProductForm.get('model')?.invalid && updateProductForm.get('model')?.touched "
+                class="text-danger">
+                El modelo es obligatorio
+            </div>
+        </div>
+        <div class="mb-3">
+            <label>Precio</label>
+            <input class="form-control" type="number" formControlName="price">
+            <div *ngIf="updateProductForm.get('price')?.invalid &&  updateProductForm.get('price')?.touched"
+                class="text-danger">
+                El precio es obligatorio
+            </div>
+        </div>
+        <div class="mb-3">
+            <label>Stock</label>
+            <input class="form-control" type="number" formControlName="stock">
+            <div *ngIf="updateProductForm.get('stock')?.invalid && updateProductForm.get('stock')?.touched"
+                class="text-danger">
+                La cantidad es obligatoria
+            </div>
+        </div>
+
+        <a class="btn btn-primary" routerLink="../details">cancelar</a>
+        <button class="btn btn-secondary" type="submit" [disabled]="!updateProductForm.dirty && updateProductForm.valid"
+        data-bs-toggle="modal" data-bs-target="#confirmUpdateActionProduct" >
+            guardar
+        </button>
+    </form>
+
+</div>
+
+<!-- Modal bootstrap -->
+
+
+<!-- Modal -->
+<div class="modal fade" id="confirmUpdateActionProduct" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          ...
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Understood</button>
+        </div>
+      </div>
+    </div>
+  </div>

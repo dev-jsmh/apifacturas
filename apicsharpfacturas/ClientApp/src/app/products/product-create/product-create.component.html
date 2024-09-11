@@ -1,0 +1,47 @@
+
+<div class="container-fluid">
+
+    <a routerLink="../"><-</a>
+</div>
+
+
+<div class="container">
+
+    <h3>Añadir Producto</h3>
+
+    <form [formGroup]="createProductForm" (ngSubmit)="onSubmit()" class="col-md-6">
+      
+        <div class="mb-3">
+            <label>Nombre</label>
+            <input class="form-control" type="text" formControlName="name">
+            <div *ngIf="createProductForm.get('name')?.invalid && createProductForm.get('name')?.touched" class="text-danger">
+                El nombre es obligatorio
+            </div>
+        </div>
+        <div class="mb-3">
+            <label>Modelo</label>
+            <input class="form-control" type="text" formControlName="model" >
+            <div *ngIf="createProductForm.get('model')?.invalid && createProductForm.get('model')?.touched " class="text-danger">
+                El modelo es obligatorio
+            </div>
+        </div> 
+        <div class="mb-3">
+            <label>Precio</label>
+            <input class="form-control" type="number" formControlName="price" >
+            <div *ngIf="createProductForm.get('price')?.invalid &&  createProductForm.get('price')?.touched" class="text-danger">
+                El precio es obligatorio
+                </div>
+        </div>
+        <div class="mb-3">
+            <label>Stock</label>
+            <input class="form-control" type="number" formControlName="stock">
+            <div *ngIf="createProductForm.get('stock')?.invalid && createProductForm.get('stock')?.touched" class="text-danger">
+            La cantidad es obligatoria
+            </div>
+        </div>
+        
+        <a class="btn btn-primary" routerLink="../">cancelar</a>
+        <button class="btn btn-secondary" type="submit" [disabled]="!createProductForm.valid">guardar</button>
+        </form>
+
+</div>
