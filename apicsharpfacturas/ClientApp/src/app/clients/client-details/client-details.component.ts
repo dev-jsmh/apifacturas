@@ -40,6 +40,8 @@ export class ClientDetailsComponent {
         this.currentClient = res;
         console.log("detalles del cliente. ");
         console.log(this.currentClient);
+
+     
       },
       error: ( ex  ) => {
         console.log("Error al intentar obtener los datos del cliente");

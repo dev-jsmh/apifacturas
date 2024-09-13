@@ -14,6 +14,7 @@ import { BillingDashboardComponent } from './billing/billing-dashboard/billing-d
 import { BillCreateComponent } from './billing/bill-create/bill-create.component';
 import { BillDetailsComponent } from './billing/bill-details/bill-details.component';
 import { BillUpdateComponent } from './billing/bill-update/bill-update.component';
+import { AddReduceQuantityComponent } from './components/add-reduce-quantity/add-reduce-quantity.component';
 
 // =========== products components ===========
 import { ProductListComponent } from './products/product-list/product-list.component';
@@ -37,12 +38,14 @@ import { ClientAddProductComponent } from './clients/client-add-product/client-a
     ProductListComponent,
     ProductCreateComponent,
     ProductUpdateComponent,
-    BillingDashboardComponent,
     ClientUpdateComponent,
     ClientDetailsComponent,
     ClientCreateComponent,
     ClientDashboardComponent,
-    ClientAddProductComponent
+    ClientAddProductComponent,
+    BillingDashboardComponent,
+    BillCreateComponent,
+    AddReduceQuantityComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -81,7 +84,7 @@ import { ClientAddProductComponent } from './clients/client-add-product/client-a
           { path: ':id/details', component: ClientDetailsComponent },
           { path: ':id/update', component: ClientUpdateComponent },
           { path: ':id/add-product', component: ClientAddProductComponent },
-          { path: ':id/create-new-bil', component: BillCreateComponent }
+          { path: ':id/create-new-bill', component: BillCreateComponent }
       
         ]
       },

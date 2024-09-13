@@ -19,6 +19,61 @@ namespace apicsharpfacturas.Migrations
                 .HasAnnotation("ProductVersion", "7.0.20")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
+            modelBuilder.Entity("apicsharpfacturas.Models.BillDetailEntity", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int?>("billEntityid")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("productid")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("quantity")
+                        .HasColumnType("int");
+
+                    b.Property<double?>("totalValue")
+                        .HasColumnType("double");
+
+                    b.Property<double?>("unitValue")
+                        .HasColumnType("double");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("billEntityid");
+
+                    b.HasIndex("productid");
+
+                    b.ToTable("billDetails");
+                });
+
+            modelBuilder.Entity("apicsharpfacturas.Models.BillEntity", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int?>("clientid")
+                        .HasColumnType("int");
+
+                    b.Property<double?>("discount")
+                        .HasColumnType("double");
+
+                    b.Property<double?>("subTotal")
+                        .HasColumnType("double");
+
+                    b.Property<double?>("totalValue")
+                        .HasColumnType("double");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("clientid");
+
+                    b.ToTable("bills");
+                });
+
             modelBuilder.Entity("apicsharpfacturas.Models.ClientEntity", b =>
                 {
                     b.Property<int>("id")
@@ -36,13 +91,10 @@ namespace apicsharpfacturas.Migrations
                     b.ToTable("clients");
                 });
 
-            modelBuilder.Entity("apicsharpfacturas.Models.Product", b =>
+            modelBuilder.Entity("apicsharpfacturas.Models.ProductEntity", b =>
                 {
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<int?>("ClientEntityid")
                         .HasColumnType("int");
 
                     b.Property<string>("model")
@@ -54,26 +106,38 @@ namespace apicsharpfacturas.Migrations
                     b.Property<double?>("price")
                         .HasColumnType("double");
 
-                    b.Property<int?>("stock")
-                        .HasColumnType("int");
-
                     b.HasKey("id");
-
-                    b.HasIndex("ClientEntityid");
 
                     b.ToTable("products");
                 });
 
-            modelBuilder.Entity("apicsharpfacturas.Models.Product", b =>
+            modelBuilder.Entity("apicsharpfacturas.Models.BillDetailEntity", b =>
                 {
-                    b.HasOne("apicsharpfacturas.Models.ClientEntity", null)
-                        .WithMany("products")
-                        .HasForeignKey("ClientEntityid");
+                    b.HasOne("apicsharpfacturas.Models.BillEntity", "billEntity")
+                        .WithMany()
+                        .HasForeignKey("billEntityid");
+
+                    b.HasOne("apicsharpfacturas.Models.ProductEntity", "product")
+                        .WithMany()
+                        .HasForeignKey("productid");
+
+                    b.Navigation("billEntity");
+
+                    b.Navigation("product");
+                });
+
+            modelBuilder.Entity("apicsharpfacturas.Models.BillEntity", b =>
+                {
+                    b.HasOne("apicsharpfacturas.Models.ClientEntity", "client")
+                        .WithMany("bills")
+                        .HasForeignKey("clientid");
+
+                    b.Navigation("client");
                 });
 
             modelBuilder.Entity("apicsharpfacturas.Models.ClientEntity", b =>
                 {
-                    b.Navigation("products");
+                    b.Navigation("bills");
                 });
 #pragma warning restore 612, 618
         }

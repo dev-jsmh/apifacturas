@@ -7,11 +7,11 @@ namespace apicsharpfacturas.Models
     public class BillDetailEntity { 
    
        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        private int Id { get; set; }
-        private BillEntity? billEntity { get; set; }
-        private ProductEntity product { get; set; }
-        private int quantity { get; set; }
-        private double unitValue { get; set; }
-        private double totalValue { get; set; }
+        public int id { get; set; }
+        public BillEntity? billEntity { get; set; }
+        public ProductEntity? product { get; set; }
+        public int? quantity { get; set; }
+        public double? unitValue { get; set; }
+        public double? totalValue { get; set; }
     }
 }

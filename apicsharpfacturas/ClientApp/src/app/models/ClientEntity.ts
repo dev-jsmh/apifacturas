@@ -8,6 +8,6 @@ export class ClientEntity {
     public id?: number;
     public names?: string;
     public lastnames?: string;
-    public products?: ProductEntity[];
+    public bills?: ProductEntity[];
 
 }

@@ -3,6 +3,8 @@
 
 
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.SignalR;
 
 namespace apicsharpfacturas.Models
 {
@@ -12,16 +14,9 @@ namespace apicsharpfacturas.Models
         public int id { get; set; }
         public string? names { get; set; }
         public string? lastnames { get; set; }
-
-        //  public ICollection<Product> products { get; } = new list<Product>()
-        // public List<Product> products { get; set; } = [];
-        public ICollection<ProductEntity> products { get; set; } = new List<ProductEntity>();
-
+        // product bills list
+        [JsonIgnore]
+        public List<BillEntity>? bills { get; set; }
 
     }
-
-
-
-
-
 }

@@ -23,19 +23,19 @@
     <div class="col-md-6 mt-5">
         <h5>Productos</h5>
 
-        <div *ngIf="currentClient.products?.length == 0" class="mb-3">
-            <p> El cliente aun no tiene productos.
-                asígnele algunos !
+        <div *ngIf="currentClient.bills?.length == 0" class="mb-3">
+            <p> El cliente aun no tiene Facturas
+                cree una con el boton de abajo !
             </p>
             <a class="btn btn-primary m-1" routerLink="../add-product">Añadir productos</a>
 
         </div>
 
-        <div *ngFor="let product of currentClient.products" class="mb-3">
-            <p><span style="font-weight: bold;">Nombre</span> {{ product.id }}</p>
-            <p><span style="font-weight: bold;">Nombre</span> {{ product.name }}</p>
-            <p><span style="font-weight: bold;">Nombre</span> {{ product.model }}</p>
-            <p><span style="font-weight: bold;">Nombre</span> {{ product.price }}</p>
+        <div *ngFor="let b of currentClient.bills" class="mb-3">
+            <p><span style="font-weight: bold;">Nombre</span> {{ b.id }}</p>
+            <p><span style="font-weight: bold;">Nombre</span> {{ b.name }}</p>
+            <p><span style="font-weight: bold;">Nombre</span> {{ b.model }}</p>
+            <p><span style="font-weight: bold;">Nombre</span> {{ b.price }}</p>
         </div>
     </div>
 
