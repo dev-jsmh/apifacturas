@@ -7,63 +7,104 @@
 <div class="container">
 
     <h3>Crear Nueva Factura</h3>
-<div class="row">
-    <div class="mt-3 mb-3 col-md-6">
-        <p><span style="font-weight: bold;">Id: </span>{{ currentClient.id }}</p>
-        <p><span style="font-weight: bold;">Nombres:</span> {{ currentClient.names }}</p>
-        <p><span style="font-weight: bold;">Apellidos:</span> {{ currentClient.lastnames }}</p>
+    <div class="row">
+        <div class="mt-3 mb-3 col-md-6">
+            <p><span style="font-weight: bold;">Id: </span>{{ currentClient.id }}</p>
+            <p><span style="font-weight: bold;">Nombres:</span> {{ currentClient.names }}</p>
+            <p><span style="font-weight: bold;">Apellidos:</span> {{ currentClient.lastnames }}</p>
+        </div>
+
+        <form class="mt-3 col-md-6 ">
+
+            <div class="mb-3">
+                <label>Fecha</label>
+                <input class="form-control" type="datetime-local">
+            </div>
+            <div class="mb-3">
+                <p><span style="font-weight: bold;">Subtotal:</span> {{ billSubTotal }}</p>
+            </div>
+            <div class="mb-3">
+                <p><span style="font-weight: bold;">Descuento:</span> {{ 0 }}</p>
+            </div>
+            <div class="mb-3">
+                <p><span style="font-weight: bold;">Total a pagar:</span> {{ billTotal }}</p>
+            </div>
+
+        </form>
     </div>
 
-    <form class="mt-3 col-md-6 ">
-
-        <div class="mb-3">
-            <label>Fecha</label>
-            <input class="form-control" type="datetime-local">
-        </div>
-        <div class="mb-3">
-            <p><span style="font-weight: bold;">Subtotal:</span> {{ 0 }}</p>
-        </div>
-        <div class="mb-3">
-            <p><span style="font-weight: bold;">Descuento:</span> {{ 0 }}</p>
-        </div>
-        <div class="mb-3">
-            <p><span style="font-weight: bold;">Total a pagar:</span> {{ 0 }}</p>
-        </div>
-
-    </form>
-</div>
-   
 
     <div class="container mt-5">
-      
+
 
         <h4 class="mt-5">Productos Disponibles</h4>
+        <div class="row">
+            <div class="col-md-6" style="height: 380px; overflow-y: scroll;">
+                <table class="table table-stripe table-dark">
+                    <thead>
+                        <tr>
+                            <th scope="col">Id</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Modelo</th>
+                            <th scope="col">precio</th>
+                            <th scope="col">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let product of productList">
 
-        <div style="height: 380px; overflow-y: scroll;">
-            <table class="table table-stripe table-dark">
-                <thead>
-                    <tr>
-                        <th scope="col">Id</th>
-                        <th scope="col">Nombre</th>
-                        <th scope="col">Modelo</th>
-                        <th scope="col">precio</th>
-                        <th scope="col">Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let detail of detailList" scope="row">
-                        <td>{{ detail?.ProductEntity?.id }}</td>
-                        <td>{{ detail?.ProductEntity?.name }}</td>
-                        <td>{{ detail?.ProductEntity?.model }}</td>
-                        <td>{{ detail?.ProductEntity?.price }}</td>
-                        <td>
-                            <app-add-reduce-quantity [quantity]="0" ></app-add-reduce-quantity>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+                            <td>{{ product?.id }}</td>
+                            <td>{{ product?.name }}</td>
+                            <td>{{ product?.model }}</td>
+                            <td>{{ product?.price }}</td>
+                            <td>
+                                <div>
+                                    <button (click)="addToList(product)">+</button>
+                                </div>
+                            </td>
+                        </tr>
 
+
+                    </tbody>
+                </table>
+
+            </div>
+            <div class="col-md-6" style="height: 380px; overflow-y: scroll;">
+                <table class="table table-stripe table-dark">
+                    <thead>
+                        <tr>
+
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Modelo</th>
+                            <th scope="col">valor Unit</th>
+                            <th scope="col">cantidad</th>
+                            <th scope="col">Total</th>
+                            <th scope="col">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let detail of detailList">
+
+                            <td>{{ detail.product?.name }}</td>
+                            <td>{{ detail?.product?.model }}</td>
+                            <td>{{ detail?.product?.price }}</td>
+
+                            <td>{{ detail?.quantity }}</td>
+                            <td>{{ detail?.totalValue }}</td>
+
+                            <td>
+                                <div>
+
+                                </div>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
         </div>
+
+        <button (click)="calculateTotal()">calculate</button>
 
     </div>
 

@@ -29,7 +29,7 @@ export class BillService {
       let detail: BillDetailEntity = new BillDetailEntity();
 
       // map properties
-      detail.ProductEntity = p;
+      detail.product = p;
       detail.quantity = 0;
       detail.unitValue = p.price;
       detail.totalValue = 0;
@@ -37,11 +37,11 @@ export class BillService {
       DetailList.push(detail);
     });
 
-    if( DetailList != null ){
+    if (DetailList != null) {
 
-    // return lis of details 
-    return DetailList;
-    }else {
+      // return lis of details 
+      return DetailList;
+    } else {
       return DetailList;
     }
 

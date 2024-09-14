@@ -7,7 +7,7 @@ export class BillDetailEntity{
 
     public id?: number;
     public BillEntity?: BillEntity;
-    public ProductEntity?: ProductEntity;
+    public product?: ProductEntity;
     public quantity?: number;
     public unitValue?: number;
     public totalValue?: number;

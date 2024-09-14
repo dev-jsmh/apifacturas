@@ -4,9 +4,9 @@ import { ClientEntity } from 'src/app/models/ClientEntity';
 import { ProductEntity } from 'src/app/models/ProductEntity';
 import { ClientService } from 'src/app/services/client.service';
 import { ProductService } from 'src/app/services/product.service';
-import { AddReduceQuantityComponent } from 'src/app/components/add-reduce-quantity/add-reduce-quantity.component';
 import { BillService } from 'src/app/services/bill.service';
 import { BillDetailEntity } from 'src/app/models/BillDetailEntity';
+
 
 @Component({
   selector: 'app-bill-create',
@@ -20,7 +20,14 @@ export class BillCreateComponent {
   // list of products 
   public productList: ProductEntity[] = [];
   // public list of detail 
-  public detailList: BillDetailEntity[] = [];
+  public detailList: BillDetailEntity[] = []
+  // products to purchase
+  public wantedProducts: ProductEntity[] = [];
+
+  // data of bill
+  public billSubTotal: number = 0;
+  public billDiscount: number = 0;
+  public billTotal = 0;
 
   // =============== constructor ===============
   // inject dependencies within the constructor 
@@ -50,7 +57,7 @@ export class BillCreateComponent {
         console.log("detalles del cliente. ");
         console.log(this.currentClient);
       },
-      error: (ex) => {
+      error: (ex: any) => {
         console.log("Error al intentar obtener los datos del cliente");
         console.log(ex);
       }
@@ -62,25 +69,61 @@ export class BillCreateComponent {
         this.productList = res;
         console.log("List of products map to details: ");
 
-        // call service to map product to detail
-        this.detailList = this.dillService.mapProductToBillDetailList(this.productList);
-
         console.log(this.detailList);
 
-        this.detailList[0].ProductEntity?.id
+        // this.detailList[0].ProductEntity?.id
 
       },
-      error: (ex) => {
+      error: (ex: any) => {
         console.log("Error when trying to get products from back-end api");
         console.log(ex);
       }
     });
 
+  }
+
+  addToList(p: ProductEntity) {
+
+    const detail = new BillDetailEntity();
+
+    // checke if product already exists
+    if (this.wantedProducts.includes(p)) {
+      console.log("product exist");
+    } else {
+
+      // mapp the product to bill detail
+      detail.product = p;
+      detail.quantity = 1;
+      detail.unitValue = p!.price;
+      if (p.price) {
+        detail.totalValue = detail.quantity * p.price;
+      }
+      this.wantedProducts.push(p);
+      this.detailList.push(detail);
+      console.log("adding detail to list.... ");
+
+    }
+    console.log(this.detailList);
 
 
   }
 
+  calculateTotal() {
+    // calculate subtotal
+    for (let i = 0; this.detailList.length > i; i++) {
 
+
+console.log(this.detailList[i]);
+      this.billSubTotal += this.detailList[i].totalValue!;
+
+      /*
+            const t = this.detailList[i].totalValue;
+      
+            if (t != undefined) {
+              this.billSubTotal += t;
+            }*/
+    }
+  }
 
 
 

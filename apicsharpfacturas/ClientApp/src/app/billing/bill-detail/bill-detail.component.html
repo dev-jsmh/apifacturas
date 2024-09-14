@@ -1,0 +1,14 @@
+<tr scope="row">
+
+<td>{{ product?.id }}</td>
+<td>{{ product?.name }}</td>
+<td>{{ product?.model }}</td>
+<td>{{ product?.price }}</td>
+<td>
+    <div>
+        <button (click)="add()">+</button>
+        <span> {{ detail.quantity }}</span>
+        <button (click)="reduce()"> - </button>
+    </div>
+</td>
+</tr>
