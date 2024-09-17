@@ -19,7 +19,6 @@ namespace apicsharpfacturas
 
         public Startup(IConfiguration configuration)
         {
-
             Configuration = configuration;
         }
 
@@ -40,13 +39,11 @@ namespace apicsharpfacturas
             c.SwaggerDoc("v1", new OpenApiInfo
             {
                 Version = "v1",
-                Title = "ToDo API",
-                Description = "A simple example ASP.NET Core Web API"
+                Title = "Billing Software",
+                Description = "A small software to manage bill , products and clients."
 
 
             }));
-
-
         }
 
         public void Configure(WebApplication app, IWebHostEnvironment env)

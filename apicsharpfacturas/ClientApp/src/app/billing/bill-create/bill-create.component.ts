@@ -6,6 +6,8 @@ import { ClientService } from 'src/app/services/client.service';
 import { ProductService } from 'src/app/services/product.service';
 import { BillService } from 'src/app/services/bill.service';
 import { BillDetailEntity } from 'src/app/models/BillDetailEntity';
+import { FormControl, Validators } from '@angular/forms';
+import { BillEntity } from 'src/app/models/BillEntity';
 
 
 @Component({
@@ -15,18 +17,23 @@ import { BillDetailEntity } from 'src/app/models/BillDetailEntity';
 })
 export class BillCreateComponent {
 
+  DateIsSet = true;
+  public detailsAreEmpty = false;
   public clientId = '';
   public currentClient: ClientEntity = new ClientEntity();
+
   // list of products 
   public productList: ProductEntity[] = [];
   // public list of detail 
   public detailList: BillDetailEntity[] = []
   // products to purchase
   public wantedProducts: ProductEntity[] = [];
+  ///  =========================== bill form ===========================
+  public billDiscount: FormControl = new FormControl(0, Validators.required);
+  public billDate: FormControl = new FormControl('', Validators.required);
 
   // data of bill
   public billSubTotal: number = 0;
-  public billDiscount: number = 0;
   public billTotal = 0;
 
   // =============== constructor ===============
@@ -35,7 +42,7 @@ export class BillCreateComponent {
     private route: ActivatedRoute,
     private clientService: ClientService,
     private productService: ProductService,
-    private dillService: BillService
+    private billService: BillService,
   ) {
 
     // extract id from route
@@ -67,9 +74,8 @@ export class BillCreateComponent {
     this.productService.getAll().subscribe({
       next: (res: any) => {
         this.productList = res;
-        console.log("List of products map to details: ");
-
-        console.log(this.detailList);
+        console.log("List of products: ");
+        // console.log(this.productList);
 
         // this.detailList[0].ProductEntity?.id
 
@@ -82,50 +88,107 @@ export class BillCreateComponent {
 
   }
 
+  /// add product to list of wantedProducts. Then create a new detail and add it to detailList array
   addToList(p: ProductEntity) {
 
     const detail = new BillDetailEntity();
-
     // checke if product already exists
     if (this.wantedProducts.includes(p)) {
-      console.log("product exist");
+      console.log("product exist on wantedProductList");
     } else {
-
       // mapp the product to bill detail
       detail.product = p;
       detail.quantity = 1;
       detail.unitValue = p!.price;
-      if (p.price) {
-        detail.totalValue = detail.quantity * p.price;
-      }
+      detail.totalValue = detail.unitValue! * detail.quantity;
       this.wantedProducts.push(p);
       this.detailList.push(detail);
       console.log("adding detail to list.... ");
-
     }
-    console.log(this.detailList);
+    // refresh total value of bill
+    this.calculateTotal();
+  }
 
+  updateDetail(event: BillDetailEntity) {
+    /*
+    // filter the array and return a new one with all elements but not the updated one
+    this.detailList = this.detailList.filter(detail => detail.product!.id !== event.product!.id);
+    // push the update detail comming from the event
+    this.detailList.push(event);
+    // refresh total value of bill
+    this.calculateTotal();
+
+    */
+    const updatedDetailLit = this.detailList.map(d => {
+      if (d.product!.id === event.product!.id) {
+        d.quantity = event.quantity;
+        d.totalValue = event.totalValue;
+        // console.log(d);
+        return d;
+      } else {
+        return d
+      }
+    });
+
+    this.detailList = updatedDetailLit;
+
+
+
+    // refresh total value of bill
+    this.calculateTotal();
 
   }
 
   calculateTotal() {
+
+    this.billSubTotal = 0;
     // calculate subtotal
     for (let i = 0; this.detailList.length > i; i++) {
-
-
-console.log(this.detailList[i]);
+      //console.log(this.detailList[i]);
       this.billSubTotal += this.detailList[i].totalValue!;
+    }
+    // calculate total value with discount 
+    this.billTotal = this.billSubTotal - this.billDiscount.value;
+    // print bill information in console
+    console.log("Fecha de factura: " + this.billDate.value);
+    console.log("subtotal: " + this.billSubTotal);
+    console.log("Descuento: " + this.billDiscount.value);
+    console.log("total: " + this.billTotal);
+    // console.log(this.detailList);
+  }
 
-      /*
-            const t = this.detailList[i].totalValue;
-      
-            if (t != undefined) {
-              this.billSubTotal += t;
-            }*/
+  submitBill() {
+    // calculates the value of the bill before submiting the form
+    this.calculateTotal();
+    // create new instance of billEntity 
+    const billData = new BillEntity();
+    // checke if date has been set 
+    if (this.billDate.value == '') {
+      this.DateIsSet = false;
+
+      console.warn("la fecha no ha sido seleccionada !");
+    } else if (this.detailList.length == 0) {
+      this.detailsAreEmpty = true;
+      console.warn("debe existir por lo menos un producto !");
+    } else {
+      this.DateIsSet = true;
+      // map properties to the bill instance
+      billData.subTotal = this.billSubTotal;
+      billData.discount = this.billDiscount.value;
+      billData.totalValue = this.billTotal;
+      billData.client = this.currentClient;
+      billData.date = this.billDate.value;
+      billData.details = this.detailList;
+      // make post request to back-end api
+      this.billService.post(this.clientId, billData).subscribe({
+        next: (res: any) => {
+          console.log(res);
+        }, error: (ex: any) => {
+          console.log(ex);
+        }
+      });
     }
   }
 
-
-
-
+  
 }

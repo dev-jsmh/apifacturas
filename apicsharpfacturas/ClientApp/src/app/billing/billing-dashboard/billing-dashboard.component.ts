@@ -1,5 +1,7 @@
+import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { BillEntity } from 'src/app/models/BillEntity';
+import { BillService } from 'src/app/services/bill.service';
 
 @Component({
   selector: 'app-billing-dashboard',
@@ -8,5 +10,26 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 
 })
 export class BillingDashboardComponent {
+
+  public billList: BillEntity[] = [];
+
+  constructor( private billService: BillService) {
+
+
+    // get all bill
+
+    this.billService.getAll().subscribe({
+      next: (res: any) => {
+        this.billList = res;
+        console.log(res);
+      },
+      error(ex: any) {
+        console.log(ex);
+      }
+    });
+
+  }
+
+
 
 }

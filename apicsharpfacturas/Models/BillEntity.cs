@@ -7,12 +7,12 @@ namespace apicsharpfacturas.Models
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int id { get; set; }
+        public DateTime date { get; set; }
         public ClientEntity? client { get; set; }
-        public double? subTotal { get; set; }
+        public double subTotal { get; set; }
         public double? discount { get; set; }
-        public double? totalValue { get; set; }
-
-        public List<BillDetailEntity>? details { get; set; }
-    }
+        public double totalValue { get; set; }
+       public List<BillDetailEntity>? details { get; set; }
+    } 
 
 }

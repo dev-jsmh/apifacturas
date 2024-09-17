@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 namespace apicsharpfacturas.Controllers
 {
 	[ApiController]
-	[Route("api/[controller]")]
+	[Route("api/products")]
 	public class ProductsController : ControllerBase
 	{
 

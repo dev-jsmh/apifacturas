@@ -1,9 +1,6 @@
 <div class="container-fluid">
-
     <a routerLink="../../"><- </a>
 </div>
-
-
 <div class="container">
 
     <h3>Crear Nueva Factura</h3>
@@ -13,33 +10,31 @@
             <p><span style="font-weight: bold;">Nombres:</span> {{ currentClient.names }}</p>
             <p><span style="font-weight: bold;">Apellidos:</span> {{ currentClient.lastnames }}</p>
         </div>
-
-        <form class="mt-3 col-md-6 ">
-
+        <form class="mt-3 col-md-6">
+            <div class="text-danger" *ngIf="detailsAreEmpty">Debe seleccionar por lo menos un producto !</div>
             <div class="mb-3">
                 <label>Fecha</label>
-                <input class="form-control" type="datetime-local">
+                <input class="form-control" type="datetime-local" [formControl]="billDate">
+                <div class="text-danger" *ngIf="(billDate.invalid && billDate.touched ) || !DateIsSet">La fecha es
+                    obligatoria</div>
             </div>
             <div class="mb-3">
-                <p><span style="font-weight: bold;">Subtotal:</span> {{ billSubTotal }}</p>
+                <p><span style="font-weight: bold;">Subtotal:</span> {{ billSubTotal | number : '1.0-2' }}</p>
             </div>
-            <div class="mb-3">
-                <p><span style="font-weight: bold;">Descuento:</span> {{ 0 }}</p>
-            </div>
-            <div class="mb-3">
-                <p><span style="font-weight: bold;">Total a pagar:</span> {{ billTotal }}</p>
-            </div>
+            <div class="mb-3 d-flex">
 
+                <label style="font-weight: bold;">Descuento</label>
+                <input class="form-control mx-1" type="number" [formControl]="billDiscount">
+            </div>
+            <div class="mb-3">
+                <p><span style="font-weight: bold;">Total a pagar:</span> {{ billTotal | number : '1.0-2' }}</p>
+            </div>
         </form>
     </div>
-
-
     <div class="container mt-5">
-
-
         <h4 class="mt-5">Productos Disponibles</h4>
         <div class="row">
-            <div class="col-md-6" style="height: 380px; overflow-y: scroll;">
+            <div class="col-md-4" style="height: 380px; overflow-y: scroll;">
                 <table class="table table-stripe table-dark">
                     <thead>
                         <tr>
@@ -56,55 +51,49 @@
                             <td>{{ product?.id }}</td>
                             <td>{{ product?.name }}</td>
                             <td>{{ product?.model }}</td>
-                            <td>{{ product?.price }}</td>
+                            <td>{{ product?.price | number : '1.0-2' }}</td>
                             <td>
                                 <div>
                                     <button (click)="addToList(product)">+</button>
                                 </div>
                             </td>
                         </tr>
-
-
                     </tbody>
                 </table>
 
             </div>
-            <div class="col-md-6" style="height: 380px; overflow-y: scroll;">
+
+            <div class="col-md-8" style="height: 380px; overflow-y: scroll;">
                 <table class="table table-stripe table-dark">
                     <thead>
                         <tr>
-
                             <th scope="col">Nombre</th>
                             <th scope="col">Modelo</th>
                             <th scope="col">valor Unit</th>
                             <th scope="col">cantidad</th>
                             <th scope="col">Total</th>
-                            <th scope="col">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr *ngFor="let detail of detailList">
-
                             <td>{{ detail.product?.name }}</td>
                             <td>{{ detail?.product?.model }}</td>
-                            <td>{{ detail?.product?.price }}</td>
-
-                            <td>{{ detail?.quantity }}</td>
-                            <td>{{ detail?.totalValue }}</td>
-
+                            <td>{{ detail!.product!.price | number : '1.0-2' }}</td>
                             <td>
-                                <div>
 
-                                </div>
+                                <app-add-reduce-detail-quantity [currentTdetail]="detail"
+                                    (onDetailChange)="updateDetail($event)"></app-add-reduce-detail-quantity>
+
                             </td>
+                            <td>{{ detail.totalValue | number : '1.0-2' }}</td>
                         </tr>
 
                     </tbody>
                 </table>
             </div>
         </div>
-
-        <button (click)="calculateTotal()">calculate</button>
+        <button class="btn btn-primary mx-1" (click)="calculateTotal()">Calcular Valor</button>
+        <button class="btn btn-primary" (click)="submitBill()">Generar Factura</button>
 
     </div>
 

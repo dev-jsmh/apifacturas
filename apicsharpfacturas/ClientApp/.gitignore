@@ -6,6 +6,9 @@
 /tmp
 /out-tsc
 
+# ignore angular cache
+./angular
+
 # dependencies
 /node_modules
 

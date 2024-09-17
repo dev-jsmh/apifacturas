@@ -4,7 +4,8 @@ import { Injectable } from '@angular/core';
 // models
 import { ProductEntity } from '../models/ProductEntity';
 import { BillDetailEntity } from '../models/BillDetailEntity';
-import { filter } from 'rxjs';
+import { apiUrl } from '../env';
+import { BillEntity } from '../models/BillEntity';
 
 @Injectable({
   providedIn: 'root'
@@ -47,8 +48,21 @@ export class BillService {
 
   }
 
+  // ================== http methods ==================
 
+  // ================== create bill ==================
+  public post(clientId: string, newBill: BillEntity) {
+    return this.http.post(apiUrl + '/clients/' + clientId + '/bills', newBill);
+  }
 
+  // ================== get all bill ==================
+  public getAll() {
+    return this.http.get(apiUrl + '/bills');
+  }
 
+  // ================== get all bill ==================
+  public getById(billId: string) {
+    return this.http.get(apiUrl + "/bills/" + billId);
+  }
 
 }

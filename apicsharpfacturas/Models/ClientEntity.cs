@@ -12,10 +12,10 @@ namespace apicsharpfacturas.Models
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int id { get; set; }
-        public string? names { get; set; }
-        public string? lastnames { get; set; }
-        // product bills list
-        [JsonIgnore]
+        [Column(TypeName = "varchar(255)")]
+        public string names { get; set; }
+        [Column(TypeName = "varchar(255)")]
+        public string lastnames { get; set; }
         public List<BillEntity>? bills { get; set; }
 
     }

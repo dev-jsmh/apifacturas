@@ -9,7 +9,7 @@ namespace apicsharpfacturas.Controllers
 {
 
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/clients")]
     public class ClientsController : ControllerBase
     {
         // add datacontext property
@@ -27,6 +27,8 @@ namespace apicsharpfacturas.Controllers
             try
             {
                 var clients = await this._context.clients.ToListAsync();
+
+
                 return Ok(clients);
             }
             catch (System.Exception)
@@ -34,8 +36,6 @@ namespace apicsharpfacturas.Controllers
 
                 return BadRequest("se produjo un error al traer los clients.");
             }
-
-
         }
         // ------------- get client by id -------------
         [HttpGet("{id}")]
@@ -130,6 +130,86 @@ namespace apicsharpfacturas.Controllers
 
 
         }
+
+        // ============== create a new bill to a specifique client ==============
+        [HttpPost("{clientId}/bills")]
+        public async Task<ActionResult<BillEntity>> createBill([FromBody] BillEntity billReq, [FromRoute] int clientId)
+        {
+            
+            // instantiate a new bill
+            BillEntity billTemp = new BillEntity();
+            // find the client 
+            var clientTemp = await this._context.clients.FindAsync(clientId);
+
+            if (clientTemp == null)
+            {
+                return BadRequest("El cliente no existe en la base de datos. ");
+            }
+
+            if (billReq != null)
+            {
+                // map properties from request to entity
+                billTemp.subTotal = billReq.subTotal;
+                billTemp.discount = billReq.discount;
+                billTemp.totalValue = billReq.totalValue;
+                billTemp.client = clientTemp;
+                billTemp.date = billReq.date;
+
+                this._context.bills.Add(billTemp);
+
+                /// loop through details of billReq
+                foreach (var item in billReq.details)
+                {
+                    //create new BillDetailsEntity instance
+                    var detail = new BillDetailEntity();
+                    // 
+                    // get client from database
+                    var currentProduct = await this._context.products.FindAsync(item.product.id);
+                    // map properties from request to the new instance
+
+                    detail.quantity = item.quantity;
+                    detail.unitValue = item.unitValue;
+                    detail.totalValue = item.totalValue;
+                    detail.product = currentProduct;
+                    detail.billEntity = billTemp;
+                    this._context.billDetails.Add(detail);
+                }
+                await this._context.SaveChangesAsync();
+                // return the entire bill if everthing is correct
+                return Ok(billTemp);
+            }
+            else if (billReq == null)
+            {
+                return BadRequest("El objeto a guardar no es valido. Porfavor compruebe que los datos de factura sean valido. ");
+            }
+            else
+            {
+                return BadRequest("Error al crear la factura ");
+            }
+        }
+
+        // ============== get all bills from especifique client ==============
+        [HttpGet("{clientId}/bills")]
+        public async Task<ActionResult<ClientEntity>> GetBillByClientId([FromRoute] int clientId)
+        {
+            try
+            {
+                // return a client with all related bills
+                var clientBills = await this._context.clients
+                    .Include(c => c.bills) 
+                    .ThenInclude( bill => bill.details )
+                    .ThenInclude( detail => detail.product )
+                    .Where(c => c.id == clientId).FirstOrDefaultAsync();
+
+                return Ok(clientBills);
+            }
+            catch (System.Exception ex)
+            {
+                return BadRequest("No se pudo obtener las facturas del client id: " + clientId + " . " + ex);
+            }
+        }
+
+
 
     }
 }

@@ -1,32 +1,49 @@
-<h2>Facturas</h2>
 
-<a class="btn btn-primary m-3" routerLink="create">Crear</a>
-
-<div style="height: 380px; overflow-y: hidden;">
-    <table class="table table-stripe table-dark">
-        <thead>
-            <tr>
-                <th scope="col">id</th>
-                <th scope="col" >fecha</th>
-                <th scope="col" >sub-total</th>
-                <th scope="col" >descuento</th>
-                <th scope="col" >valor a pagar</th>
-                <th scope="col">acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <th scope="row"> 1</th>
-                <td>2024-04-09</td>
-                <td>180.000</td>
-                <td>45.000</td>
-                <td>135.000</td>
-                <td>
-                    <a routerLink="3/details">detalles</a>
-                </td>
+<div class="container">
+    <h2>Facturas</h2>
+    <a class="btn btn-primary m-3" routerLink="create">Crear</a>
     
-            </tr>
-        </tbody>
-    </table>
 </div>
+<div class="container">
+    <div style="height: 380px; overflow-y: scroll;">
+        <table class="table table-stripe table-dark">
+            <thead>
+                <tr>
+                    <th scope="col">id</th>
+                    <th scope="col" >fecha</th>
+                    <th scope="col" >sub-total</th>
+                    <th scope="col" >descuento</th>
+                    <th scope="col" >valor a pagar</th>
+                    <th scope="col">acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row"> 1</th>
+                    <td>2024-04-09</td>
+                    <td>180.000</td>
+                    <td>45.000</td>
+                    <td>135.000</td>
+                    <td>
+                        <a routerLink="3/details">detalles</a>
+                    </td>
+        
+                </tr>
+                <tr *ngFor="let bill of billList">
+                    <th scope="row"> {{ bill.id }}</th>
+                    <td> {{ bill.date }}</td>
+                    <td> {{ bill.subTotal | number : '1.0-5' }}</td>
+                    <td> {{ bill.discount | number : '1.0-5' }}</td>
+                    <td> {{ bill.totalValue | number : '1.0-5' }}</td>
+                  
+                    <td>
+                        <a routerLink="{{ bill.id}}/details">detalles</a>
+                    </td>
+        
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
 
