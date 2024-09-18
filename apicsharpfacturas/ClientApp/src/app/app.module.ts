@@ -15,6 +15,7 @@ import { BillCreateComponent } from './billing/bill-create/bill-create.component
 import { BillDetailsComponent } from './billing/bill-details/bill-details.component';
 import { BillUpdateComponent } from './billing/bill-update/bill-update.component';
 import { AddReduceDetailQuantityComponent } from './billing/add-reduce-detail-quantity/add-reduce-detail-quantity.component';
+import { PdfbuttonComponent } from './billing/pdfbutton/pdfbutton.component';
 
 // =========== products components ===========
 import { ProductListComponent } from './products/product-list/product-list.component';
@@ -46,7 +47,8 @@ import { ClientAddProductComponent } from './clients/client-add-product/client-a
     BillingDashboardComponent,
     BillCreateComponent,
     BillDetailsComponent,
-    AddReduceDetailQuantityComponent
+    AddReduceDetailQuantityComponent,
+    PdfbuttonComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

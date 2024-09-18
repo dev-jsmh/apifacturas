@@ -1,9 +1,9 @@
 <div class="container-fluid">
-    <a routerLink="../../"> <- </a>
-            <h3>Detalles De Factura</h3>
+    <a routerLink="../../"> <- </a>       
 </div>
 
 <div class="container">
+    <h3>Detalles De Facturación</h3>
     <div class="row">
         <div class="col-md-6 mb-3 mt-5">
             <span style="font-weight: bold;">Id Factura: </span>
@@ -17,36 +17,41 @@
             <span style="font-weight: bold;">Apellidos </span>
             <p>{{ currentBill.client?.lastnames }}</p>
         </div>
-        <div class="col-md-6 mb-3">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th scope="col">Id Detalle</th>
-                        <th scope="col">Producto</th>
-                        <th scope="col">Modelo</th>
-                        <th scope="col">Precio Unit</th>
-                        <th scope="col">Cantidad</th>
-                        <th scope="col">Valor Total</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let detail of currentBill.details">
-                        <th scope="row"> {{ detail.id }}</th>
-                        <td>{{ detail?.product?.name }}</td>
-                        <td>{{ detail?.product?.model }}</td>
-                        <td>{{ detail?.product?.price }}</td>
-                        <td>{{ detail?.quantity }}</td>
-                        <td>{{ detail?.totalValue }}</td>
-                    </tr>
-                </tbody>
-            </table>
-            <div class="col-md-6 mb-3">
-
-                <p><span style="font-weight: bold;">Sub-Total: </span>{{ currentBill.subTotal }}</p>
-                <p><span style="font-weight: bold;">Descuento: </span>{{ currentBill.discount }}</p>
-                <p><span style="font-weight: bold;">Total a Pagar: </span>{{ currentBill.totalValue }}</p>
+        <div class="col-12">
+            <div style="overflow-y: scroll; height: 400px" >
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Id Detalle</th>
+                            <th scope="col">Producto</th>
+                            <th scope="col">Modelo</th>
+                            <th scope="col">V.unit</th>
+                            <th scope="col">cantidad</th>
+                            <th scope="col">V.total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+    
+                        <tr *ngFor="let detail of currentBill.details">
+                            <th scope="row"> {{ detail.id }}</th>
+                            <td>{{ detail?.product?.name }}</td>
+                            <td>{{ detail?.product?.model }}</td>
+                            <td>{{ detail?.product?.price }}</td>
+                            <td>{{ detail?.quantity }}</td>
+                            <td>{{ detail?.totalValue }}</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
+        <div class="col-md-6 mb-3">
+
+            <p><span style="font-weight: bold;">Sub-Total: </span>{{ currentBill.subTotal }}</p>
+            <p><span style="font-weight: bold;">Descuento: </span>{{ currentBill.discount }}</p>
+            <p><span style="font-weight: bold;">Total a Pagar: </span>{{ currentBill.totalValue }}</p>
+        </div>
+
+        <app-pdfbutton [billData]="currentBill"></app-pdfbutton>
     </div>
 
 
