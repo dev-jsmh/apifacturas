@@ -91,7 +91,7 @@ namespace apicsharpfacturas.Controllers
 				productTemp.name = productReq.name;
 				productTemp.model = productReq.model;
 				productTemp.price = productReq.price;
-			//	productTemp.stock = productReq.stock;
+				productTemp.stock = productReq.stock;
 
 				// save entity on data base 
 				this._context.Entry(productTemp).State = EntityState.Modified;

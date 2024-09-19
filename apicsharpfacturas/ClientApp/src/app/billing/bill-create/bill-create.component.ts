@@ -8,6 +8,7 @@ import { BillService } from 'src/app/services/bill.service';
 import { BillDetailEntity } from 'src/app/models/BillDetailEntity';
 import { FormControl, Validators } from '@angular/forms';
 import { BillEntity } from 'src/app/models/BillEntity';
+import { Location } from '@angular/common';
 
 
 @Component({
@@ -43,6 +44,7 @@ export class BillCreateComponent {
     private clientService: ClientService,
     private productService: ProductService,
     private billService: BillService,
+    private location: Location
   ) {
 
     // extract id from route
@@ -190,5 +192,7 @@ export class BillCreateComponent {
     }
   }
 
-  
+  public goBack() {
+    this.location.back();
+  }
 }

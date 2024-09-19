@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BillEntity } from 'src/app/models/BillEntity';
 import { BillService } from 'src/app/services/bill.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-bill-details',
@@ -17,6 +18,7 @@ export class BillDetailsComponent {
   constructor(
     private billService: BillService,
     private route: ActivatedRoute,
+    private location: Location,
     private router: Router) {
 
 
@@ -42,6 +44,10 @@ export class BillDetailsComponent {
         console.log(ex);
       }
     })
-  }
+   }
 
+    // go back to previous location
+   public goBack(){
+    this.location.back();
+   }
 }

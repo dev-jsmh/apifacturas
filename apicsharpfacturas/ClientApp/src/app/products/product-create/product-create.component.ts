@@ -54,7 +54,7 @@ validateForm(){
 
     // call the service 
     this.productService.create(this.newProduct).subscribe({
-      next: (res) => {
+      next: (res: any) => {
         console.log("El producto se envio al backend ");
         console.log(res);
         setTimeout( () => {
@@ -62,7 +62,7 @@ validateForm(){
         }, 500);
       },
 
-      error: (error) => {
+      error: (error: any ) => {
         console.log("Error al intentar guardar el producto en el backend");
         console.log(error);
       }

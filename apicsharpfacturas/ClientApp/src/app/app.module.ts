@@ -87,7 +87,8 @@ import { ClientAddProductComponent } from './clients/client-add-product/client-a
           { path: ':id/details', component: ClientDetailsComponent },
           { path: ':id/update', component: ClientUpdateComponent },
           { path: ':id/add-product', component: ClientAddProductComponent },
-          { path: ':id/create-new-bill', component: BillCreateComponent }
+          { path: ':id/create-new-bill', component: BillCreateComponent },
+          { path: ':id/bills/:id/details', component: BillDetailsComponent }
       
         ]
       },

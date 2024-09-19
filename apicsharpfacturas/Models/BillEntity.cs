@@ -12,7 +12,7 @@ namespace apicsharpfacturas.Models
         public double subTotal { get; set; }
         public double? discount { get; set; }
         public double totalValue { get; set; }
-       public List<BillDetailEntity>? details { get; set; }
+       public List<BillDetailEntity> details { get; set; }
     } 
 
 }

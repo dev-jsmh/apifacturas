@@ -48,7 +48,12 @@ namespace apicsharpfacturas.Controllers
             // 
             try
             {
-                var clientTemp = await this._context.clients.FindAsync(id);
+                var clientTemp =  await this._context.clients
+                    .Include(c => c.bills)
+                    .ThenInclude(b => b.details)
+                    .ThenInclude(d => d.product)
+                    .Where(c => c.id == id).FirstOrDefaultAsync();
+
                 // validates if the object is not null
                 if (clientTemp != null)
                 {

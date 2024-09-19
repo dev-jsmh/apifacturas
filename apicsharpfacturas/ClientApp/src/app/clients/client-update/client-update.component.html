@@ -1,11 +1,9 @@
 
-<div class="container-fluid">
-    <a routerLink="../details"> <- </a>
-            <h3>Actualizar Datos del Cliente</h3>
-</div>
 
 <div class="container">
-    <form *ngIf="clientIsLoaded" class="col-md-6" [formGroup]="updateClientForm" (ngSubmit)="onSubmit()">
+    <a routerLink="../details"> <- </a>
+    <h3>Actualizar Datos del Cliente</h3>
+    <form *ngIf="clientIsLoaded" class="col-md-6 mt-5" [formGroup]="updateClientForm" (ngSubmit)="onSubmit()">
 
         <div class="mb-3">
             <label for="">Nombres</label>

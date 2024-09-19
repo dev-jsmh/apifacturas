@@ -16,7 +16,7 @@ namespace apicsharpfacturas.Models
         public string names { get; set; }
         [Column(TypeName = "varchar(255)")]
         public string lastnames { get; set; }
-        public List<BillEntity>? bills { get; set; }
+        public List<BillEntity> bills { get; set; }
 
     }
 }

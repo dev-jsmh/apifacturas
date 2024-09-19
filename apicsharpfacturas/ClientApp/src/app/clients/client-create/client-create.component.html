@@ -1,24 +1,44 @@
-<div class="container-fluid">
+<div class="container">
     <a routerLink="../"> <- </a>
             <h3>Añadir cliente</h3>
+            <form class="col-md-6 mt-5" [formGroup]="createClientForm" (ngSubmit)="onSubmit()">
+
+                <div class="mb-3">
+                    <label for="">Nombres</label>
+                    <input class="form-control" type="text" formControlName="names">
+                </div>
+                <div class="mb-3">
+                    <label for="">Apellidos</label>
+                    <input class="form-control" type="text" formControlName="lastnames">
+                </div>
+
+            </form>
+            <div class="mb-3">
+
+                <!-- Button trigger modal -->
+                <button class="btn btn-secondary mx-1" [disabled]="!createClientForm.valid"
+                    (click)="openConfirmModal()">
+                    guardar
+                </button>
+                <a class="btn btn-primary mx-1" routerLink="../">cancelar</a>
+            </div>
 </div>
 
-<div class="container">
-    <form class="col-md-6" [formGroup]="createClientForm" (ngSubmit)="onSubmit()">
-
-        <div class="mb-3">
-            <label for="">Nombres</label>
-            <input class="form-control" type="text" formControlName="names">
+<!-- Modal -->
+<div class="modal fade" id="confirmSubmitActionModal" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Guardar datos</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h3>¿ Esta seguro de enviar los datos registrados sobre el cliente ?</h3>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                <button type="button" class="btn btn-primary" (click)="onSubmit()">Guardar</button>
+            </div>
         </div>
-        <div class="mb-3">
-            <label for="">Apellidos</label>
-            <input class="form-control" type="text" formControlName="lastnames">
-        </div>
-        <div class="mb-3">
-           <button class="btn btn-secondary mx-1" type="submit" [disabled]="!createClientForm.valid" >
-            guardar
-           </button>
-           <a class="btn btn-primary mx-1" routerLink="../">cancelar</a>
-        </div>
-    </form>
+    </div>
 </div>
