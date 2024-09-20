@@ -1,7 +1,6 @@
-
 <div class="container-fluid">
 
-    <a routerLink="../"><-</a>
+    <a routerLink="../"><- </a>
 </div>
 
 
@@ -9,39 +8,118 @@
 
     <h3>Añadir Producto</h3>
 
-    <form [formGroup]="createProductForm" (ngSubmit)="onSubmit()" class="col-md-6">
-      
+    <form [formGroup]="createProductForm" class="col-md-6">
+
         <div class="mb-3">
             <label>Nombre</label>
             <input class="form-control" type="text" formControlName="name">
-            <div *ngIf="createProductForm.get('name')?.invalid && createProductForm.get('name')?.touched" class="text-danger">
+            <div *ngIf="createProductForm.get('name')?.invalid && createProductForm.get('name')?.touched"
+                class="text-danger">
                 El nombre es obligatorio
             </div>
         </div>
         <div class="mb-3">
             <label>Modelo</label>
-            <input class="form-control" type="text" formControlName="model" >
-            <div *ngIf="createProductForm.get('model')?.invalid && createProductForm.get('model')?.touched " class="text-danger">
+            <input class="form-control" type="text" formControlName="model">
+            <div *ngIf="createProductForm.get('model')?.invalid && createProductForm.get('model')?.touched "
+                class="text-danger">
                 El modelo es obligatorio
             </div>
-        </div> 
+        </div>
         <div class="mb-3">
             <label>Precio</label>
-            <input class="form-control" type="number" formControlName="price" >
-            <div *ngIf="createProductForm.get('price')?.invalid &&  createProductForm.get('price')?.touched" class="text-danger">
+            <input class="form-control" type="number" formControlName="price">
+            <div *ngIf="createProductForm.get('price')?.invalid &&  createProductForm.get('price')?.touched"
+                class="text-danger">
                 El precio es obligatorio
-                </div>
+            </div>
         </div>
         <div class="mb-3">
             <label>Stock</label>
             <input class="form-control" type="number" formControlName="stock">
-            <div *ngIf="createProductForm.get('stock')?.invalid && createProductForm.get('stock')?.touched" class="text-danger">
-            La cantidad es obligatoria
+            <div *ngIf="createProductForm.get('stock')?.invalid && createProductForm.get('stock')?.touched"
+                class="text-danger">
+                La cantidad es obligatoria
             </div>
         </div>
-        
+    </form>
+    <div class="mb-3">
         <a class="btn btn-primary" routerLink="../">cancelar</a>
-        <button class="btn btn-secondary" type="submit" [disabled]="!createProductForm.valid">guardar</button>
-        </form>
+        <button class="btn btn-secondary"
+        type="button" 
+        [disabled]="!createProductForm.valid" 
+        (click)="modalService.openModal('confirmSubmitProductModal')" >guardar</button>
+    </div>
 
 </div>
+
+
+<!-- Modal confirm action -->
+<div class="modal fade" id="confirmSubmitProductModal" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Crear Nueva Producto</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h5>¿ Desea registrar un nuevo producto con los datos ingresados ?</h5>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                <button type="button" class="btn btn-primary" (click)="onSubmit()" >
+                    <span *ngIf="isSubmitInProccess == false">Guardar</span>
+                    <app-spinner *ngIf="isSubmitInProccess == true"></app-spinner>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal success -->
+<div class="modal fade" id="successCreateProductModal" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Operacion Exitosa</h1>
+               
+            </div>
+            <div class="modal-body">
+               
+                <div style="font-weight: bold;" class="text-center m-2">
+                    <p class="m-2">El producto fue guardada con exito !</p>
+                    <i class="bi bi-check-circle" style="font-size: 80px; color: rgb(106, 223, 106)"></i>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary"
+                    (click)="modalService.closeAndRedirect('successCreateProductModal', '/products' )">Ok</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal error -->
+<div class="modal fade" id="errorCreateProductModal" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Error</h1>
+             
+            </div>
+            <div class="modal-body">
+                <div class="text-center m-2">
+                    <i class="bi bi-x-circle" style="font-size: 80px; font-weight: bold; color: rgb(223, 106, 106);"></i>
+                    <p style="color: rgb(255, 0, 0);"> Error: Internal Server Error</p>
+                    <p> Mensaje: {{ HttpError.message }}</p>
+                    <p> Status: {{ HttpError.status }}</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Ok</button>
+            </div>
+        </div>
+    </div>
+</div> 

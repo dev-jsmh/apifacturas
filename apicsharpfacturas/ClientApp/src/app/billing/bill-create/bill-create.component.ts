@@ -9,6 +9,8 @@ import { BillDetailEntity } from 'src/app/models/BillDetailEntity';
 import { FormControl, Validators } from '@angular/forms';
 import { BillEntity } from 'src/app/models/BillEntity';
 import { Location } from '@angular/common';
+import { ModalService } from 'src/app/services/modal.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 
 @Component({
@@ -17,6 +19,15 @@ import { Location } from '@angular/common';
   styleUrls: ['./bill-create.component.css']
 })
 export class BillCreateComponent {
+
+  // contains an error value for the requeried fields of the form
+  public formError: any = {};
+
+  public isSubmitInProccess = false;
+  // object that containes error
+  public HttpError = new HttpErrorResponse({});
+
+  public formPassedValidation = false;
 
   DateIsSet = true;
   public detailsAreEmpty = false;
@@ -44,6 +55,7 @@ export class BillCreateComponent {
     private clientService: ClientService,
     private productService: ProductService,
     private billService: BillService,
+    public modalService: ModalService,
     private location: Location
   ) {
 
@@ -121,7 +133,7 @@ export class BillCreateComponent {
     this.calculateTotal();
 
     */
-    const updatedDetailLit = this.detailList.map(d => {
+    const updatedDetailLis = this.detailList.map(d => {
       if (d.product!.id === event.product!.id) {
         d.quantity = event.quantity;
         d.totalValue = event.totalValue;
@@ -131,14 +143,9 @@ export class BillCreateComponent {
         return d
       }
     });
-
-    this.detailList = updatedDetailLit;
-
-
-
+    this.detailList = updatedDetailLis;
     // refresh total value of bill
     this.calculateTotal();
-
   }
 
   calculateTotal() {
@@ -159,40 +166,81 @@ export class BillCreateComponent {
     // console.log(this.detailList);
   }
 
-  submitBill() {
+  /*
+  formIsValid() {
+
+
+    let formError: any = {};
+    // check if date is not empty
+    if (this.billDate.value == '') {
+      this.DateIsSet = false;
+      // add the date property with the error message
+      formError["date"] = "la fecha no ha sido seleccionada !";
+      console.warn("la fecha no ha sido seleccionada !");
+
+    }
+    // check if ther exists at least one detail on the list
+    else if (this.detailList.length == 0) {
+      this.detailsAreEmpty = true;
+      // add the detials property with the error message
+      formError.detials = "debe existir por lo menos un producto !";
+      console.warn("debe existir por lo menos un producto !");
+    }
+
+    this.formError = formError;
+    // get the number of error 
+    return Object.keys(formError).length == 0;
+  }*/
+
+  onSubmitBill() {
+    this.isSubmitInProccess = true;
     // calculates the value of the bill before submiting the form
     this.calculateTotal();
     // create new instance of billEntity 
     const billData = new BillEntity();
-    // checke if date has been set 
-    if (this.billDate.value == '') {
-      this.DateIsSet = false;
 
-      console.warn("la fecha no ha sido seleccionada !");
-    } else if (this.detailList.length == 0) {
-      this.detailsAreEmpty = true;
-      console.warn("debe existir por lo menos un producto !");
-    } else {
-      this.DateIsSet = true;
-      // map properties to the bill instance
-      billData.subTotal = this.billSubTotal;
-      billData.discount = this.billDiscount.value;
-      billData.totalValue = this.billTotal;
-      billData.client = this.currentClient;
-      billData.date = this.billDate.value;
-      billData.details = this.detailList;
-      // make post request to back-end api
-      this.billService.post(this.clientId, billData).subscribe({
-        next: (res: any) => {
-          console.log(res);
-        }, error: (ex: any) => {
-          console.log(ex);
-        }
-      });
-    }
+    this.DateIsSet = true;
+    // map properties to the bill instance
+    billData.subTotal = this.billSubTotal;
+    billData.discount = this.billDiscount.value;
+    billData.totalValue = this.billTotal;
+    billData.client = this.currentClient;
+    billData.date = this.billDate.value;
+    billData.details = this.detailList;
+    // make post request to back-end api
+    this.billService.post(this.clientId, billData).subscribe({
+      next: (res: any) => {
+        // change state of process to false
+        this.isSubmitInProccess = false;
+        // close confirmation modal
+        this.modalService.closeModal('confirmSubmitBillActionModal');
+        // wait 200msg
+        setTimeout(() => {
+          // open success modal 
+          this.modalService.openModal('successCreateBillModal');
+        }, 200);
+
+        console.log(res);
+      }, error: (ex: HttpErrorResponse) => {
+        // change state of process to false
+        this.isSubmitInProccess = false;
+        // set the error to variable
+        this.HttpError = ex;
+        // close modal
+        this.modalService.closeModal('confirmSubmitBillActionModal');
+        setTimeout(() => {
+          // open success modal 
+          this.modalService.openModal('errorCreateBillModal');
+        });
+        //
+        console.log(ex);
+      }
+    });
+
   }
 
   public goBack() {
     this.location.back();
+    this.modalService.closeAndRedirect
   }
 }

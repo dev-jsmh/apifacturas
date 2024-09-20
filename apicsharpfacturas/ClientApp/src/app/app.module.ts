@@ -29,11 +29,13 @@ import { ClientCreateComponent } from './clients/client-create/client-create.com
 import { ClientDetailsComponent } from './clients/client-details/client-details.component';
 import { ClientUpdateComponent } from './clients/client-update/client-update.component';
 import { ClientAddProductComponent } from './clients/client-add-product/client-add-product.component';
+import { SpinnerComponent } from './components/spinner/spinner.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
+    SpinnerComponent,
     FetchDataComponent,
     ProductDetailsComponent,
     ProductListComponent,

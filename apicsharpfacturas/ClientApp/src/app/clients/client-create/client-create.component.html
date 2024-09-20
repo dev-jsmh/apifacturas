@@ -17,27 +17,81 @@
 
                 <!-- Button trigger modal -->
                 <button class="btn btn-secondary mx-1" [disabled]="!createClientForm.valid"
-                    (click)="openConfirmModal()">
+                    (click)="modalService.openModal('confirmSubmitActionModal')">
                     guardar
                 </button>
                 <a class="btn btn-primary mx-1" routerLink="../">cancelar</a>
+
             </div>
 </div>
 
-<!-- Modal -->
+<!-- Modal confirm action -->
 <div class="modal fade" id="confirmSubmitActionModal" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Guardar datos</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <h3>¿ Esta seguro de enviar los datos registrados sobre el cliente ?</h3>
+                <h5>¿ Esta seguro de enviar los datos registrados sobre el cliente ?</h5>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-                <button type="button" class="btn btn-primary" (click)="onSubmit()">Guardar</button>
+                <button type="button" class="btn btn-primary" (click)="onSubmit()">
+                    <span *ngIf="submitInProccess == false">Guardar</span>
+                    <app-spinner *ngIf="submitInProccess == true"></app-spinner>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal success -->
+<div class="modal fade" id="successSubmitModal" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Operation Exitosa</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              
+                <div style="font-weight: bold;" class="text-center m-2">
+                    <p class="m-2">Los datos han sido guardados correctamente !</p>
+                    <i class="bi bi-check-circle" style="font-size: 80px; color: rgb(106, 223, 106)"></i>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary"
+                    (click)="modalService.closeAndRedirect('successSubmitModal', '/clients')">Ok</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal error -->
+<div class="modal fade" id="errorSubmitModal" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Error</h1>
+               
+            </div>
+            <div class="modal-body">
+                <div class="text-center m-2">
+                    <i class="bi bi-x-circle" style="font-size: 80px; font-weight: bold; color: rgb(223, 106, 106);"></i>
+                    <p style="color: rgb(255, 0, 0);"> Error: Internal Server Error</p>
+                    <p> Mensaje: {{ HttpError.message }}</p>
+                    <p> Status: {{ HttpError.status }}</p>
+                    <p>Es probable que se haya perdido la conección a la base de datos.</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-primary"
+                    (click)="modalService.closeModal('errorSubmitModal')">Ok</button>
             </div>
         </div>
     </div>

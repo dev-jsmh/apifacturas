@@ -3,13 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ClientEntity } from 'src/app/models/ClientEntity';
 import { ClientService } from 'src/app/services/client.service';
-
-
-// bootstrap import
-
-import { Modal } from 'bootstrap';
-import * as bootstrap from 'bootstrap';
-import { bootstrapApplication } from '@angular/platform-browser';
+import { HttpErrorResponse } from '@angular/common/http';
+import { ModalService } from 'src/app/services/modal.service';
 
 @Component({
   selector: 'app-client-create',
@@ -18,9 +13,11 @@ import { bootstrapApplication } from '@angular/platform-browser';
 })
 export class ClientCreateComponent {
 
-
-
-
+  /// variable to check if the submition of the form is in process
+  submitInProccess = false;
+  /// object for http error
+  HttpError = new HttpErrorResponse({});
+  // form to create new client 
   public createClientForm: FormGroup;
 
   // instantiate a new client
@@ -30,6 +27,7 @@ export class ClientCreateComponent {
   constructor(
     private fb: FormBuilder,
     private clientService: ClientService,
+    public modalService: ModalService,
     private router: Router) {
 
     // create form 
@@ -41,6 +39,9 @@ export class ClientCreateComponent {
   }
 
   onSubmit() {
+    // the submit process starts so show the spinner
+    this.submitInProccess = true;
+
     this.newClient.names = this.createClientForm.get('names')?.value;
     this.newClient.lastnames = this.createClientForm.get('lastnames')?.value;
     this.newClient.bills = [];
@@ -50,32 +51,33 @@ export class ClientCreateComponent {
       next: (res: any) => {
         console.log("Data of client send successfully to back-end: ");
         console.log(res);
-        setTimeout(() => {
+        // hide spinner
+        this.submitInProccess = false;
+        // close confirm modal message
+        this.modalService.closeModal("confirmSubmitActionModal");
 
-          // close modal
-          this.closeConfirmModal();
-          this.router.navigateByUrl("/clients");
+        // wait 200msg 
+        setTimeout(() => {
+          // open success modal message 
+          this.modalService.openModal('successSubmitModal');
         }, 200);
       },
-      error: (error) => {
+      error: (err: HttpErrorResponse) => {
+        // hide spinner
+        this.submitInProccess = false;
         console.log("Error when trying to send a new client to back-end: ");
-        console.log(error);
+        console.log(err);
+        this.HttpError = err;
+        // close manually modal windows
+        this.modalService.closeModal("confirmSubmitActionModal");
+        // wait 100msg
+        setTimeout(() => {
+          // open error modal message
+          this.modalService.openModal("errorSubmitModal");
+        }, 200);
+
       }
     })
   }
 
-
-
-  openConfirmModal() {
-
-    var m = document.getElementById('confirmSubmitActionModal');
-    //  this.modal!.show();
-    var modal = new bootstrap.Modal(m!)
-    modal.show();
-  }
-
-  closeConfirmModal() {
-    var m = document.getElementById('confirmSubmitActionModal');
-    bootstrap.Modal.getInstance(m!)?.hide();
-  }
 }

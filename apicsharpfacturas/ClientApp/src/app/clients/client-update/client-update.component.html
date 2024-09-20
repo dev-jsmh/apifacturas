@@ -19,10 +19,81 @@
             <input class="form-control" type="text" formControlName="lastnames">
         </div>
         <div class="mb-3">
-           <button class="btn btn-secondary mx-1" type="submit" [disabled]="updateClientForm.valid && !updateClientForm.dirty" >
+           <button 
+           class="btn btn-secondary mx-1" 
+           type="button" 
+           [disabled]="updateClientForm.valid && !updateClientForm.dirty"
+           (click)="modalService.openModal('confirmUpdateClientActionModal')" >
             guardar
            </button>
            <a class="btn btn-primary mx-1" routerLink="../details">cancelar</a>
         </div>
     </form>
 </div>
+
+<!-- Modal confirm action -->
+<div class="modal fade" id="confirmUpdateClientActionModal" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Actualizar Datos</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h5>¿ Esta seguro de actualizar los datos del cliente ?</h5>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                <button type="button" class="btn btn-primary" [disabled]="updateClientForm.valid && !updateClientForm.dirty" (click)="onSubmit()">
+                    <span *ngIf="updateInProccess == false">Guardar</span>
+                    <app-spinner *ngIf="updateInProccess == true"></app-spinner>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal success -->
+<div class="modal fade" id="successUpdateClientModal" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Operacion Exitosa</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h5>Los datos se acualizaron correctamente !</h5>
+                <div class="text-centes">
+                    <i class="bi bi-check" style="font-size: 50px;"></i>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary"
+                    (click)="modalService.closeAndRedirect('successUpdateClientModal', clientDetailUrl )">Ok</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal error -->
+<div class="modal fade" id="errorUpdateClientModal" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Error</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p style="color: rgb(255, 0, 0);"> Error: {{ HttpError.error }}</p>
+                <p> Mensaje: {{ HttpError.message }}</p>
+                <p> Status: {{ HttpError.status }}</p>
+            </div>
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-primary"
+                    (click)="modalService.closeModal('errorUpdateClientModal')">Ok</button>
+            </div>
+        </div>
+    </div>
+</div> 

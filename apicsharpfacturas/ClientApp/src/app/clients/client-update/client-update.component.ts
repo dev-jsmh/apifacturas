@@ -1,8 +1,10 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ClientEntity } from 'src/app/models/ClientEntity';
 import { ClientService } from 'src/app/services/client.service';
+import { ModalService } from 'src/app/services/modal.service';
 
 @Component({
   selector: 'app-client-update',
@@ -11,6 +13,9 @@ import { ClientService } from 'src/app/services/client.service';
 })
 export class ClientUpdateComponent {
 
+
+  /// object for http error
+  HttpError = new HttpErrorResponse({});
   // id of client
   public clientId = '';
   // instance for the client
@@ -19,12 +24,17 @@ export class ClientUpdateComponent {
   public updateClientForm: any;
   // 
   public clientIsLoaded = false;
+  // 
+  updateInProccess = false;
+  // 
+  clientDetailUrl = '/clients/' + this.clientId + '/details';
 
   // =============== constructor ===============
   // inject dependencies within the constructor 
   constructor(
     private route: ActivatedRoute,
     private clientService: ClientService,
+    public modalService: ModalService,
     private router: Router,
     private fb: FormBuilder
   ) {
@@ -70,20 +80,35 @@ export class ClientUpdateComponent {
 
   // =============== method to handle form ===============
   onSubmit() {
+    this.updateInProccess = true;
     // set data from the form to the currentClient variable 
     this.currentClient.names = this.updateClientForm.get('names')?.value;
     this.currentClient.lastnames = this.updateClientForm.get('lastnames')?.value;
     // ===============  make post request ================
     this.clientService.update(this.clientId, this.currentClient).subscribe({
       next: (res: any) => {
+        this.updateInProccess = false;
         // set response to the currentClient variable
         console.log("Client has been updated successfully ");
         console.log(res);
-        this.router.navigateByUrl("/clients/" + this.clientId + '/details')
+        // close confirm update action modal
+        this.modalService.closeModal('confirmUpdateClientActionModal');
+        // wait 200msg
+        setTimeout( () => {
+          this.modalService.openModal('successUpdateClientModal');
+        }, 200);
       }, // print error message in console
-      error: (ex) => {
+      error: ( err: HttpErrorResponse) => {
+        this.updateInProccess = false;
+        this.HttpError = err;
         console.log("Error when trying to update client data: ");
-        console.log(ex);
+        console.log(err);
+         // close confirm update action modal
+         this.modalService.closeModal('confirmUpdateClientActionModal');
+         // wait 200msg
+        setTimeout( () => {
+          this.modalService.openModal('errorUpdateClientModal');
+        }, 200);
       }
     });
   }

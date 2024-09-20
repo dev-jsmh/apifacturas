@@ -8,7 +8,7 @@
 
     <h3>Actualizar Datos Producto</h3>
 
-    <form *ngIf="isLoaded" [formGroup]="updateProductForm" (ngSubmit)="onSubmit()" class="col-md-6">
+    <form *ngIf="isLoaded" [formGroup]="updateProductForm" class="col-md-6">
 
         <div class="mb-3">
             <label>Id</label>
@@ -46,34 +46,86 @@
                 La cantidad es obligatoria
             </div>
         </div>
-
+    </form>
+    <div class="mb-3">
         <a class="btn btn-primary" routerLink="../details">cancelar</a>
-        <button class="btn btn-secondary" type="submit" [disabled]="!updateProductForm.dirty && updateProductForm.valid"
-        data-bs-toggle="modal" data-bs-target="#confirmUpdateActionProduct" >
+        <button 
+        class="btn btn-secondary" 
+        [disabled]="!updateProductForm.dirty && updateProductForm.valid" 
+        (click)="modalService.openModal('confirmUpdateProductModal')">
             guardar
         </button>
-    </form>
+    </div>
 
 </div>
 
-<!-- Modal bootstrap -->
-
-
-<!-- Modal -->
-<div class="modal fade" id="confirmUpdateActionProduct" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<!-- Modal confirm action -->
+<div class="modal fade" id="confirmUpdateProductModal" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Crear Nueva Producto</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h5>¿ Desea actualizar los datos del producto ?</h5>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                <button type="button" class="btn btn-primary" (click)="onSubmit()" >
+                    <span *ngIf="isUpdateInProccess == false">Guardar</span>
+                    <app-spinner *ngIf="isUpdateInProccess == true"></app-spinner>
+                </button>
+            </div>
         </div>
-        <div class="modal-body">
-          ...
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Understood</button>
-        </div>
-      </div>
     </div>
-  </div>
+</div>
+
+<!-- Modal success -->
+<div class="modal fade" id="successUpdateProductModal" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Operacion Exitosa</h1>
+               
+            </div>
+            <div class="modal-body">
+               
+                <div style="font-weight: bold;" class="text-center m-2">
+                    <p class="m-2">El producto fue actualizado con exito !</p>
+                    <i class="bi bi-check-circle" style="font-size: 80px; color: rgb(106, 223, 106)"></i>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary"
+                    (click)="modalService.closeAndRedirect('successUpdateProductModal', '/products/' + productId + '/details' )">Ok</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal error -->
+<div class="modal fade" id="errorUpdateProductModal" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Error</h1>
+             
+            </div>
+            <div class="modal-body">
+                <div class="text-center m-2">
+                    <i class="bi bi-x-circle" style="font-size: 80px; font-weight: bold; color: rgb(223, 106, 106);"></i>
+                    <p style="color: rgb(255, 0, 0);"> Error: Internal Server Error</p>
+                    <p> Mensaje: {{ HttpError.message }}</p>
+                    <p> Status: {{ HttpError.status }}</p>
+                    <p> Es probable que se haya perdido la conección a la base de datos.</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Ok</button>
+            </div>
+        </div>
+    </div>
+</div> 

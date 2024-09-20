@@ -1,7 +1,9 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Navigation, Route, Router } from '@angular/router';
 import { ProductEntity } from 'src/app/models/ProductEntity';
+import { ModalService } from 'src/app/services/modal.service';
 import { ProductService } from 'src/app/services/product.service';
 
 @Component({
@@ -11,7 +13,8 @@ import { ProductService } from 'src/app/services/product.service';
 })
 export class ProductUpdateComponent {
 
-
+  public HttpError = new HttpErrorResponse({});
+  public isUpdateInProccess = false
   updateProductForm: any;
 
   // product id form route
@@ -19,13 +22,15 @@ export class ProductUpdateComponent {
   // current product
   public currentProduct: ProductEntity = new ProductEntity();
   public isLoaded = false;
+ 
 
   // inject dependencies 
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private productService: ProductService,
-    private router: Router) {
+    public modalService: ModalService
+  ) {
 
     // extract the product id from route
     this.route.params.subscribe({
@@ -62,28 +67,47 @@ export class ProductUpdateComponent {
           "stock": [this.currentProduct.stock, Validators.required]
         })
       this.isLoaded = true;
-    }, 200);
+    }, 100);
 
 
 
 
   }
 
+   /// url to redirect usert to 
+   public productDetailUrl = '/products/' + this.productId + '/details';
+
   // method to handle form 
   onSubmit() {
 
+    this.isUpdateInProccess = true;
     console.log(this.updateProductForm.value);
     // make update request to back-end
     this.productService.update(this.productId, this.updateProductForm.value).subscribe({
       next: (res: any) => {
+        this.isUpdateInProccess = false;
         console.log("product update successfully");
         console.log(res);
-        // redirect user to details
-        this.router.navigateByUrl("/products/" + this.productId +"/details");
+        // open modal with success message
+        this.modalService.closeModal('confirmUpdateProductModal');
+        // wait 200msg
+        setTimeout(() => {
+          this.modalService.openModal('successUpdateProductModal');
+        }, 200);
+
       },
       error: (error) => {
+        this.isUpdateInProccess = false;
         console.log("Error when trying to update product information.");
         console.log(error);
+        // set error 
+        this.HttpError = error;
+        // open modal with success message
+        this.modalService.closeModal('confirmUpdateProductModal');
+        // wait 200msg
+        setTimeout(() => {
+          this.modalService.openModal('errorUpdateProductModal');
+        }, 200);
       }
     });
 
