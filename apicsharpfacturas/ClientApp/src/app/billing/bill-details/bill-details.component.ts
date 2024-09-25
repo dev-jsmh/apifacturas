@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { BillEntity } from 'src/app/models/BillEntity';
 import { BillService } from 'src/app/services/bill.service';
 import { Location } from '@angular/common';
+import { BillDetailEntity } from 'src/app/models/BillDetailEntity';
 
 @Component({
   selector: 'app-bill-details',
@@ -13,6 +14,7 @@ export class BillDetailsComponent {
 
   public billId = '';
   public currentBill: BillEntity = new BillEntity();
+  public totalNumberOfProducts = 0;
 
   // ============= inject dependencies 
   constructor(
@@ -24,7 +26,7 @@ export class BillDetailsComponent {
 
     // this bill id from route
     this.route.params.subscribe({
-      next: ( params ) => {
+      next: (params) => {
         this.billId = params['id'];
         console.log("Id of current bill " + this.billId);
       }, error(err) {
@@ -37,6 +39,9 @@ export class BillDetailsComponent {
       next: (res: any) => {
         // set response to bill 
         this.currentBill = res;
+
+        this.totalNumberOfProducts = this.totalItems( this.currentBill.details! );
+
         console.log(this.currentBill);
       },
       error: (ex) => {
@@ -44,10 +49,25 @@ export class BillDetailsComponent {
         console.log(ex);
       }
     })
-   }
+  }
 
-    // go back to previous location
-   public goBack(){
+  // go back to previous location
+  public goBack() {
     this.location.back();
-   }
+  }
+
+  // get total items
+  totalItems(list: BillDetailEntity[]) {
+
+    let totalItems = 0;
+    // loop trougth the list
+    list.map(item => {
+      /* extract the total number of items for each product
+      and acumulate the total number of items bought in the bill
+      */
+      totalItems += item.quantity!;
+    });
+    // return the total number of items
+    return totalItems;
+  }
 }

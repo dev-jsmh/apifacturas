@@ -14,6 +14,7 @@ namespace apicsharpfacturas.Models
 		public string? model { get; set; }
 		public double? price { get; set; }
 		public int? stock { get; set; }
+		// public string? imageUrl { get; set; }
 
 
 	}

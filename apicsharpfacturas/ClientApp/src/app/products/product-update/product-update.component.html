@@ -1,62 +1,68 @@
 <div class="container-fluid">
 
-    <a routerLink="../details"><- </a>
+    <a routerLink="../details">
+        <i class="bi bi-arrow-left" style="font-weight: bold; font-size: 40px;" ></i>
+    </a>
 </div>
 
 
-<div class="container">
+<div class="container d-flex justify-content-center aling-items-center">
 
-    <h3>Actualizar Datos Producto</h3>
+    <div class="card col-6">
+        <div class="card-header">
+            <h5>Actualizar Datos Producto</h5>
+        </div>
+        <div class="card-body">
+            <form *ngIf="isLoaded" [formGroup]="updateProductForm">
 
-    <form *ngIf="isLoaded" [formGroup]="updateProductForm" class="col-md-6">
-
-        <div class="mb-3">
-            <label>Id</label>
-            <input class="form-control" value="{{productId}}">
-        </div>
-        <div class="mb-3">
-            <label>Nombre</label>
-            <input class="form-control" type="text" formControlName="name">
-            <div *ngIf="updateProductForm.get('name')?.invalid && updateProductForm.get('name')?.touched"
-                class="text-danger">
-                El nombre es obligatorio
+                <div class="mb-3">
+                    <label>Id</label>
+                    <input class="form-control" value="{{productId}}">
+                </div>
+                <div class="mb-3">
+                    <label>Nombre</label>
+                    <input class="form-control" type="text" formControlName="name">
+                    <div *ngIf="updateProductForm.get('name')?.invalid && updateProductForm.get('name')?.touched"
+                        class="text-danger">
+                        El nombre es obligatorio
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label>Modelo</label>
+                    <input class="form-control" type="text" formControlName="model">
+                    <div *ngIf="updateProductForm.get('model')?.invalid && updateProductForm.get('model')?.touched "
+                        class="text-danger">
+                        El modelo es obligatorio
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label>Precio</label>
+                    <input class="form-control" type="number" formControlName="price">
+                    <div *ngIf="updateProductForm.get('price')?.invalid &&  updateProductForm.get('price')?.touched"
+                        class="text-danger">
+                        El precio es obligatorio
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label>Stock</label>
+                    <input class="form-control" type="number" formControlName="stock">
+                    <div *ngIf="updateProductForm.get('stock')?.invalid && updateProductForm.get('stock')?.touched"
+                        class="text-danger">
+                        La cantidad es obligatoria
+                    </div>
+                </div>
+            </form>
+            <div class="mb-3">
+                <a class="btn btn-primary" routerLink="../details">cancelar</a>
+                <button 
+                class="btn btn-secondary" 
+                [disabled]="!updateProductForm.dirty && updateProductForm.valid" 
+                (click)="modalService.openModal('confirmUpdateProductModal')">
+                    guardar
+                </button>
             </div>
         </div>
-        <div class="mb-3">
-            <label>Modelo</label>
-            <input class="form-control" type="text" formControlName="model">
-            <div *ngIf="updateProductForm.get('model')?.invalid && updateProductForm.get('model')?.touched "
-                class="text-danger">
-                El modelo es obligatorio
-            </div>
-        </div>
-        <div class="mb-3">
-            <label>Precio</label>
-            <input class="form-control" type="number" formControlName="price">
-            <div *ngIf="updateProductForm.get('price')?.invalid &&  updateProductForm.get('price')?.touched"
-                class="text-danger">
-                El precio es obligatorio
-            </div>
-        </div>
-        <div class="mb-3">
-            <label>Stock</label>
-            <input class="form-control" type="number" formControlName="stock">
-            <div *ngIf="updateProductForm.get('stock')?.invalid && updateProductForm.get('stock')?.touched"
-                class="text-danger">
-                La cantidad es obligatoria
-            </div>
-        </div>
-    </form>
-    <div class="mb-3">
-        <a class="btn btn-primary" routerLink="../details">cancelar</a>
-        <button 
-        class="btn btn-secondary" 
-        [disabled]="!updateProductForm.dirty && updateProductForm.valid" 
-        (click)="modalService.openModal('confirmUpdateProductModal')">
-            guardar
-        </button>
     </div>
-
 </div>
 
 <!-- Modal confirm action -->

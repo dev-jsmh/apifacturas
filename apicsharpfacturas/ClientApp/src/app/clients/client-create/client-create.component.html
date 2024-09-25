@@ -1,7 +1,16 @@
-<div class="container">
-    <a routerLink="../"> <- </a>
-            <h3>Añadir cliente</h3>
-            <form class="col-md-6 mt-5" [formGroup]="createClientForm" (ngSubmit)="onSubmit()">
+<div class="container-fluid">
+    <a routerLink="../"> 
+        <i class="bi bi-arrow-left" style="font-weight: bold; font-size: 40px;"></i>
+    </a>     
+</div>
+
+<div class="container d-flex justify-content-center">
+    <div class="card col-sm-12 col-md-12 col-lg-8">
+        <div class="card-header">
+            <h5>Añadir cliente</h5>
+        </div>
+        <div class="card-body">
+            <form [formGroup]="createClientForm">
 
                 <div class="mb-3">
                     <label for="">Nombres</label>
@@ -23,6 +32,8 @@
                 <a class="btn btn-primary mx-1" routerLink="../">cancelar</a>
 
             </div>
+        </div>
+    </div> 
 </div>
 
 <!-- Modal confirm action -->

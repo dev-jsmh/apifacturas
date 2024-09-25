@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
-using apicsharpfacturas.Data;
-using Microsoft.AspNetCore.Builder;
+﻿using apicsharpfacturas.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.OpenApi.Models;
+using System.Text.Json.Serialization;
 
 
 
@@ -53,6 +49,12 @@ namespace apicsharpfacturas
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            // make "Resources/Uploads/Images" folder servable so the client app ( angular ) can access its content
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"Resources")),
+                RequestPath = new PathString("/Resources")
+            });
             app.UseRouting();
             // swagger
 

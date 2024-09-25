@@ -65,4 +65,36 @@ export class BillService {
     return this.http.get(apiUrl + "/bills/" + billId);
   }
 
+    // ================== get all bill ==================
+    
+  // convert date object to formatted string
+  formatDate(dateString: string): string {
+    // create a new date object form a string 
+
+    let date = new Date(dateString)
+
+    // an array for names of the months
+    let monthsInEnglish = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    let monthsInSpanish = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+    
+    // get number of months from date
+    let current_month = monthsInSpanish[date.getMonth()];
+    // process the date 
+    var formateDateString = ([
+      current_month,
+      date.getDate(),
+      date.getFullYear()
+    ].join("/")
+      + " " +
+      [
+        date.getHours(),
+        date.getMinutes(),
+        date.getSeconds()
+      ].join(":"))
+
+
+    // return the formated date to string 
+    return formateDateString;
+  }
+
 }

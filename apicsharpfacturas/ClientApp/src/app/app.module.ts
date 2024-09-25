@@ -31,6 +31,7 @@ import { ClientUpdateComponent } from './clients/client-update/client-update.com
 import { ClientAddProductComponent } from './clients/client-add-product/client-add-product.component';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -96,7 +97,7 @@ import { SpinnerComponent } from './components/spinner/spinner.component';
       },
       { path: 'fetch-data', component: FetchDataComponent }
 
-    ])
+    ], {useHash: true})
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.Net.Http.Headers;
 using apicsharpfacturas.Data;
 using apicsharpfacturas.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -57,14 +58,47 @@ namespace apicsharpfacturas.Controllers
 
 		// ------------- post product -------------
 		[HttpPost]
-		public async Task<ActionResult<ProductEntity>> SaveProduct([FromBody] ProductEntity newProduct)
+		public async Task<ActionResult<ProductEntity>> SaveProduct([FromBody] ProductRequest productReq )
 		{
-			if (newProduct == null)
+			if (productReq == null)
 			{
 				return BadRequest("El objeto recibido es nulo");
 			}
 			else
 			{
+
+				var newProduct = new ProductEntity();
+
+				newProduct.name = productReq.name;
+				newProduct.model = productReq.model;
+				newProduct.price = productReq.price;
+				newProduct.stock = productReq.stock;
+
+					
+			/*
+				var file = newProduct.image;
+				var folderName = Path.Combine("Resources", "Uploads", "Images");
+				var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName );
+
+				if ( file.Length > 0 )
+				{
+					var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition ).FileName.Trim('"');
+					var fullPath = Path.Combine(pathToSave, fileName);
+					var dbPath = Path.Combine(folderName, fileName);
+
+					using ( var stream = new FileStream( fullPath, FileMode.Create ))
+					{
+						file.CopyTo(stream);
+					}
+					// set new image url to product
+					
+					Console.Write( "File succesfully save to " + fullPath);
+
+				}else
+				{
+					Console.WriteLine( "File could not be save. Please try again ! ");
+				}*/
+
 				this._context.products.Add(newProduct);
 				await this._context.SaveChangesAsync();
 				return Ok(newProduct);

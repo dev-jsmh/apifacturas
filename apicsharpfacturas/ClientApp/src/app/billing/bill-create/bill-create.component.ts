@@ -205,7 +205,8 @@ export class BillCreateComponent {
     billData.discount = this.billDiscount.value;
     billData.totalValue = this.billTotal;
     billData.client = this.currentClient;
-    billData.date = this.billDate.value;
+    // get the date value
+    billData.date =  this.billDate.value;
     billData.details = this.detailList;
     // make post request to back-end api
     this.billService.post(this.clientId, billData).subscribe({

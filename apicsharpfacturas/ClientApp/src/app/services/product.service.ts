@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 // --------- api ---------
@@ -18,8 +18,15 @@ export class ProductService {
     return this.http.get(apiUrl + '/Products');
   }
   // ======================== save product ====================
-  create(product: ProductEntity) {
-    return this.http.post(apiUrl + "/Products", product);
+  create(product: any) {
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'multipart/form-data'
+      })
+    }
+
+    return this.http.post(apiUrl + "/Products", product, httpOptions);
   }
   // ======================== get product by id ====================
   getById(id: string) {

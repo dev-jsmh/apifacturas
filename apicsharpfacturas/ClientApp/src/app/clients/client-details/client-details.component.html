@@ -1,57 +1,77 @@
-<div class="container">
-    <a routerLink="../../"> <- </a>
-            <h3>Detalles Del Cliente</h3>
+<div class="container-fluid">
+    <a routerLink="../../">
+        <i class="bi bi-arrow-left" style="font-weight: bold; font-size: 40px;"></i>
+    </a>
+</div>
+<div class="container d-flex justify-content-center mt-3">
 
-            <div class="col-md-6 mt-5">
+    <div class="card col-sm-12 col-md-12 col-lg-8">
 
-                <div class="mb-3">
+        <div class="card-body">
+            <!-- client data -->
+            <div class="card mb-3">
+                <div class="card-header">
+                    <h5>Detalles Del Cliente</h5>
+                </div>
+                <div class="card-body">
                     <p><span style="font-weight: bold;">Id: </span>{{ currentClient.id }}</p>
                     <p><span style="font-weight: bold;">Nombres:</span> {{ currentClient.names }}</p>
                     <p><span style="font-weight: bold;">Apellidos:</span> {{ currentClient.lastnames }}</p>
                 </div>
-
-                <div class="mb-3">
-                    <a class="btn btn-secondary mx-3" routerLink="../update">Actualizar</a>
-                    <a class="btn btn-primary mx-3" routerLink="../../">volver</a>
+                <div class="card-footer">
+                    <a class="btn btn-secondary mx-1" routerLink="../update">Actualizar</a>
+                    <a class="btn btn-primary" routerLink="../../">volver</a>
                 </div>
             </div>
+            <!-- table of bills -->
+            <div class="card">
+                <div class="card-header">
+                    <h5>Facturas</h5>
+                </div>
+                <div class="card-body">
+                    <div *ngIf="currentClient.bills?.length == 0" class="mb-3" style="color: rgb(255, 0, 0)">
+                        <p> El cliente aun no tiene Facturas
+                            cree una con el boton de abajo !
+                        </p>
+                        <a class="btn btn-primary m-1" routerLink="../create-new-bill">Crear factura</a>
+                    </div>
+                    <!-- table to show bills of client -->
+                    <table class="table table-striped" id="clientDetailTable">
+                        <thead>
+                            <tr>
+                                <th scope="col">Id Factura</th>
+                                <th scope="col">Fecha</th>
+                                <th scope="col">Sub-Total</th>
+                                <th scope="col">Descuento</th>
+                                <th scope="col">V.total</th>
+                                <th scope="col">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let bill of currentClient.bills" class="mb-3">
+                                <th scope="col">{{ bill.id }}</th>
+                                <td>{{ bill.date | date : 'medium'}}</td>
+                                <td>${{ bill.subTotal | number : '1.0-5' }}</td>
+                                <td>${{ bill.discount | number :'1.0-5' }}</td>
 
-            <div class="col-md-6 mt-5">
-                <h5>Facturas</h5>
+                                <td>${{ bill.totalValue | number : '1.0-5' }}</td>
+                                <td>
+                                    <a class="btn btn-primary"
+                                        routerLink="/clients/{{clientId}}/bills/{{bill.id}}/details">
+                                        Detalles</a>
 
-                <div *ngIf="currentClient.bills?.length == 0" class="mb-3">
-                    <p> El cliente aun no tiene Facturas
-                        cree una con el boton de abajo !
-                    </p>
-                    <a class="btn btn-primary m-1" routerLink="../add-product">Añadir productos</a>
+                                </td>
+                            </tr>
+                        </tbody>
+
+                    </table>
                 </div>
 
-                <!-- table to show bills of client -->
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th scope="col">Id Factura</th>
-                            <th scope="col">Fecha</th>
-                            <th scope="col">Sub-Total</th>
-                            <th scope="col">Descuento</th>
-                            <th scope="col">V.total</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let bill of currentClient.bills" class="mb-3">
-                            <th scope="col">{{ bill.id }}</th>
-                            <td>{{ bill.date }}</td>
-                            <td>{{ bill.subTotal }}</td>
-                            <td>{{ bill.discount }}</td>
-                           
-                            <td>{{ bill.totalValue }}</td>
-                    <td>
-                        <a routerLink="/clients/{{clientId}}/bills/{{bill.id}}/details"> Detalles</a>
-                       
-                    </td>
-                        </tr>
-                    </tbody>
-                </table>
+
+
             </div>
+        </div>
+    </div>
+
 
 </div>

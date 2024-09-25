@@ -71,6 +71,8 @@ export class ClientUpdateComponent {
       this.updateClientForm = this.fb.group({
         "names": [this.currentClient.names, Validators.required],
         "lastnames": [this.currentClient.lastnames, Validators.required],
+
+
       });
 
       this.clientIsLoaded = true;

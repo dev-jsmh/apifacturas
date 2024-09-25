@@ -4,6 +4,7 @@ import { Component, Input } from '@angular/core';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 const pdfMake = require('pdfMake/build/pdfmake.js');
 import { BillEntity } from 'src/app/models/BillEntity';
+import { BillService } from 'src/app/services/bill.service';
 
 (pdfMake as any).vfs = pdfFonts.pdfMake.vfs;
 
@@ -19,6 +20,7 @@ export class PdfbuttonComponent {
   @Input()
   public billData!: BillEntity;
 
+  constructor( private billService: BillService){}
 
   createPdf() {
 
@@ -78,11 +80,12 @@ export class PdfbuttonComponent {
           columns: [
             [
               { text: [{ text: "Id Factura: ", bold: true }, this.billData.id], margins: [0, 20] },
-              { text: [{ text: "Fecha de Registro: ", bold: true }, this.billData.date], margins: [0, 20]  },
+              { text: [{ text: "Fecha de Registro: ", bold: true }, this.billService.formatDate( this.billData.date!.toString()  )  ], margins: [0, 20]  },
             ],
             [
-              { text: [{ text: "Apellidos: ", bold: true }, this.billData.client?.lastnames] },
-              { text: [{ text: "Nombres: ",  bold: true }, this.billData.client?.names] }
+              { text: [{ text: "Nombres: ",  bold: true }, this.billData.client?.names] },
+              { text: [{ text: "Apellidos: ", bold: true }, this.billData.client?.lastnames] }
+             
             ],
           ],
         },

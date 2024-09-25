@@ -8,5 +8,6 @@ export class ProductEntity {
     public model?: string;
     public price?: number;
     public stock?: number;
+    public image?: any;
 
 }

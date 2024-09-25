@@ -5,44 +5,59 @@
 </div>
 
 <div class="container">
-    <div style="height: 380px; overflow-y: scroll;">
-        <table class="table table-stripe table-dark">
-            <thead>
-                <tr>
-                    <th scope="col">Id</th>
-                    <th scope="col">Nombre</th>
-                    <th scope="col">Modelo</th>
-                    <th scope="col">Precio</th>
-                    <th scope="col">stock</th>
-                    <th scope="col">Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>Balon</td>
-                    <td>24"</td>
-                    <td>24.000</td>
-                    <td>7</td>
-                    <td>
-                        <a routerLink="1/details">Detalles</a>
-                    </td>
-                </tr>
-    
-                <tr *ngFor="let product of productList">
-                    <th scope="row">{{ product.id }}</th>
-                    <td>{{ product.name }}</td>
-                    <td>{{ product.model }}</td>
-                    <td>{{ product.price }}</td>
-                    <td>{{ product.stock }}</td>
-                    <td>
-                        <a routerLink="{{ product.id }}/details">Detalles</a>
-                    </td>
-                </tr>
-    
-            </tbody>
-    
-        </table>
+
+    <div class="col-4 mb-3">
+        <label class="form-label" for="#searchProductBar"></label>
+        <input class="form-control p-3" id="searchProductBar" type="text" placeholder="name, modal">
     </div>
-  
+
+    <!-- grid of products -->
+     <div class="p-3" style="overflow-y: scroll; height: 600px">
+        <div class="row">
+            <div *ngFor="let product of productList" class="col-sm-12 col-md-6 col-lg-3 mb-3">
+                <div class="card">
+                    <div class="card-header">
+                        producto
+                    </div>
+                    <img src="../../../assets/images/default-product-image.png" alt="default-product-image">
+                    <div class="card-body">
+                        <p> <span style="font-weight: bold">Nombre: </span> {{ product.name }}</p>
+                        <p> <span style="font-weight: bold">V.unit: </span> ${{ product.price | number : '1.0-5' }}</p>
+                    </div>
+                    <div class="card-footer">
+                        <a class="btn btn-primary" routerLink="{{ product.id }}/details">Detalles</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+     </div>
+    <!-- 
+  <table id="productDashboarTable" class="table table-striped table-bordered table-sm row-border hover">
+        <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Modelo</th>
+                <th scope="col">Precio</th>
+                <th scope="col">stock</th>
+                <th scope="col">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let product of productList">
+                <th scope="row">{{ product.id }}</th>
+                <td>{{ product.name }}</td>
+                <td>{{ product.model }}</td>
+                <td>${{ product.price | number : '1.0-5' }}</td>
+                <td>${{ product.stock | number : '1.0-5' }}</td>
+                <td>
+                    <a class="btn btn-primary" routerLink="{{ product.id }}/details">Detalles</a>
+                </td>
+            </tr>
+
+        </tbody>
+
+    </table>
+ -->
+
 </div>

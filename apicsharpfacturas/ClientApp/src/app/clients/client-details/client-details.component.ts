@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { table } from 'console';
+import DataTable from 'datatables.net-dt';
 import { ClientEntity } from 'src/app/models/ClientEntity';
 import { ClientService } from 'src/app/services/client.service';
 
@@ -14,6 +16,9 @@ export class ClientDetailsComponent {
   public clientId = '';
 
   public currentClient: ClientEntity = new ClientEntity();
+
+  // create a variable for use as the Datatable()
+  public table: any;
 
   // =============== constructor ===============
   // inject dependencies within the constructor 
@@ -40,10 +45,13 @@ export class ClientDetailsComponent {
         this.currentClient = res;
         console.log("detalles del cliente. ");
         console.log(this.currentClient);
-
-     
+        // wati nodejs.timeout
+        setTimeout(() => {
+          // initialize table
+          this.table = new DataTable("#clientDetailTable");
+        } );
       },
-      error: ( ex  ) => {
+      error: (ex) => {
         console.log("Error al intentar obtener los datos del cliente");
         console.log(ex);
       }

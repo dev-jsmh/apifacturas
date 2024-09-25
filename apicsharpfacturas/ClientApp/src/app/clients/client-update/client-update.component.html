@@ -1,34 +1,41 @@
+<div class="container-fluid">
+    <a routerLink="../details">
+        <i class="bi bi-arrow-left" style="font-weight: bold; font-size: 40px" ></i>
+    </a>
+</div>
 
-
-<div class="container">
-    <a routerLink="../details"> <- </a>
-    <h3>Actualizar Datos del Cliente</h3>
-    <form *ngIf="clientIsLoaded" class="col-md-6 mt-5" [formGroup]="updateClientForm" (ngSubmit)="onSubmit()">
-
-        <div class="mb-3">
-            <label for="">Nombres</label>
-            <input class="form-control" type="text" value="{{ currentClient.id}}">
+<div class="container d-flex justify-content-center mt-3">
+    <div class="card col-sm-12 col-md-12 col-lg-8">
+        <div class="card-header">
+            <h5>Actualizar Datos del Cliente</h5>
         </div>
-
-        <div class="mb-3">
-            <label for="">Nombres</label>
-            <input class="form-control" type="text" formControlName="names">
-        </div>
-        <div class="mb-3">
-            <label for="">Apellidos</label>
-            <input class="form-control" type="text" formControlName="lastnames">
-        </div>
-        <div class="mb-3">
-           <button 
-           class="btn btn-secondary mx-1" 
-           type="button" 
-           [disabled]="updateClientForm.valid && !updateClientForm.dirty"
-           (click)="modalService.openModal('confirmUpdateClientActionModal')" >
-            guardar
-           </button>
-           <a class="btn btn-primary mx-1" routerLink="../details">cancelar</a>
-        </div>
-    </form>
+      <div class="card-body">
+        <form *ngIf="clientIsLoaded" [formGroup]="updateClientForm">
+    
+            <div class="mb-3">
+                <label for="">Nombres</label>
+                <input class="form-control" type="text" value="{{ currentClient.id}}">
+            </div>
+    
+            <div class="mb-3">
+                <label for="">Nombres</label>
+                <input class="form-control" type="text" formControlName="names">
+            </div>
+            <div class="mb-3">
+                <label for="">Apellidos</label>
+                <input class="form-control" type="text" formControlName="lastnames">
+            </div>
+            <div class="mb-3">
+                <button class="btn btn-secondary mx-1" type="button"
+                    [disabled]="updateClientForm.valid && !updateClientForm.dirty"
+                    (click)="modalService.openModal('confirmUpdateClientActionModal')">
+                    guardar
+                </button>
+                <a class="btn btn-primary mx-1" routerLink="../details">cancelar</a>
+            </div>
+        </form>
+      </div>
+    </div>
 </div>
 
 <!-- Modal confirm action -->
@@ -44,7 +51,8 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-                <button type="button" class="btn btn-primary" [disabled]="updateClientForm.valid && !updateClientForm.dirty" (click)="onSubmit()">
+                <button type="button" class="btn btn-primary"
+                    [disabled]="updateClientForm.valid && !updateClientForm.dirty" (click)="onSubmit()">
                     <span *ngIf="updateInProccess == false">Guardar</span>
                     <app-spinner *ngIf="updateInProccess == true"></app-spinner>
                 </button>
@@ -96,4 +104,4 @@
             </div>
         </div>
     </div>
-</div> 
+</div>

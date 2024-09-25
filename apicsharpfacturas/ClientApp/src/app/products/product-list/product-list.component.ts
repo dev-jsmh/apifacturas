@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import DataTable from 'datatables.net-dt';
 import { ProductEntity } from 'src/app/models/ProductEntity';
 import { ProductService } from 'src/app/services/product.service';
 
@@ -10,7 +11,8 @@ import { ProductService } from 'src/app/services/product.service';
 export class ProductListComponent {
 
   public productList: ProductEntity[] = [];
-
+  // variable for instantiate a datatable
+  public table: any;
   constructor(public productService: ProductService) {
 
 
@@ -23,6 +25,9 @@ export class ProductListComponent {
         // log to console
         console.log("this are the client: ");
         console.log(res);
+        setTimeout(() => {
+          this.table = new DataTable("#productDashboarTable");
+        });
       },// print error message if needed
       error: (error) => {
         console.log("Not posible to get the clients.");
