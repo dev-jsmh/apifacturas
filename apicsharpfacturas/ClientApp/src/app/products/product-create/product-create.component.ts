@@ -22,10 +22,10 @@ export class ProductCreateComponent {
   public createProductForm: FormGroup;
   // instantiate a new product
   public newProduct: ProductEntity = new ProductEntity();
-  // inject dependencies inside the constructor
-  // formData
-  public form = new FormData();
 
+  public data = new FormData();
+
+  // inject dependencies inside the constructor
   constructor(
     private fb: FormBuilder,
     public productService: ProductService,
@@ -46,9 +46,9 @@ export class ProductCreateComponent {
 
   uploadImage(event: any) {
     const image = event.target.files[0];
-    this.form.append("image", image);
-
-    this.newProduct.image = image
+    // add image file to formData
+    this.data.set("image", image);
+    this.newProduct.imageFile = image
     console.log(this.newProduct);
   }
 
@@ -60,20 +60,26 @@ export class ProductCreateComponent {
     this.newProduct.model = this.createProductForm.get("model")?.value;
     this.newProduct.price = this.createProductForm.get("price")?.value;
     this.newProduct.stock = this.createProductForm.get("stock")?.value;
+    /// form data
+
     // append product data to formData with the image
-    this.form.append("name", this.createProductForm.get("name")?.value);
-    this.form.append("model", this.createProductForm.get("model")?.value);
-    this.form.append("price", this.createProductForm.get("price")?.value);
-    this.form.append("stock", this.createProductForm.get("stock")?.value);
+    this.data.set("name", this.createProductForm.get("name")?.value);
+    this.data.set("model", this.createProductForm.get("model")?.value);
+    this.data.set("price", this.createProductForm.get("price")?.value);
+    this.data.set("stock", this.createProductForm.get("stock")?.value);
 
-    console.log("product data: ");
     console.log("sending product to back-end.......");
-    
-   console.log( "elementos en el formulario: " + Object.keys(this.form).length);
 
-   console.log(this.newProduct);
+    console.log("elementos en el formulario: " + Object.keys(this.data).length);
+    console.log("product data: ");
+    // console data coming from formData
+    console.log(this.data.get("name"));
+    console.log(this.data.get("model"));
+    console.log(this.data.get("price"));
+    console.log(this.data.get("stock"));
+    console.log(this.data.get("image"));
     // call the service 
-    this.productService.create(this.newProduct ).subscribe({
+    this.productService.create(this.data).subscribe({
       next: (res: any) => {
         console.log("El producto se envio al backend ");
         console.log(res);
@@ -100,9 +106,5 @@ export class ProductCreateComponent {
       }
 
     })
-
-
   }
-
-
 }

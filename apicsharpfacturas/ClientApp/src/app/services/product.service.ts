@@ -22,11 +22,11 @@ export class ProductService {
 
     const httpOptions = {
       headers: new HttpHeaders({
-        'Content-Type': 'multipart/form-data'
+        'Content-Type': 'multipart/form-data;  boundary'
       })
     }
 
-    return this.http.post(apiUrl + "/Products", product, httpOptions);
+    return this.http.post(apiUrl + "/Products", product  );
   }
   // ======================== get product by id ====================
   getById(id: string) {

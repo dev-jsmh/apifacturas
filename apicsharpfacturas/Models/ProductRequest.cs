@@ -12,8 +12,8 @@ namespace apicsharpfacturas.Models
         public double? price { get; set; }
         public int? stock { get; set; }
         // image file 
-        public IFormFile image { get; set; }
+        public IFormFile? imageFile { get; set; }
         // image path 
-        public string? imageUrl { get; set; }
+        public string? imagePath { get; set; }
     }
 }

@@ -1,42 +1,59 @@
 <div class="container-fluid">
-    <a routerLink="../../"><i class="bi bi-arrow-left" style="font-weight: bold; font-size: 40px;" ></i></a>
+    <a routerLink="../../"><i class="bi bi-arrow-left" style="font-weight: bold; font-size: 40px;"></i></a>
 </div>
 
 <div class="container d-flex justify-content-center">
-    <div class="card col-6 mt-3">
+    <div class="card mt-3">
         <div class="card-header">
             <h5>Detalles Del Producto</h5>
         </div>
         <div class="card-body">
-            <ul class="list-group list-group-flush mb-3">
-                <li class="list-group-item">
-                    <p><span style="font-weight: bold;">Id: </span>{{ currentProduct.id }}</p>
-                </li>
-                <li class="list-group-item">
-                    <p><span style="font-weight: bold;">Nombre:</span> {{ currentProduct.name }}</p>
-                </li>
-                <li class="list-group-item">
-                    <p><span style="font-weight: bold;">Modelo:</span> {{ currentProduct.model }}</p>
-                </li>
-                <li class="list-group-item">
-    
-                    <p><span style="font-weight: bold;">Precio:</span> ${{ currentProduct.price | number :
-                        '1.0-5' }}</p>
-                </li>
-                <li class="list-group-item">
-                    <p><span style="font-weight: bold;">Stock:</span> {{ currentProduct.stock }}</p>
-                </li>
-            </ul>
-    
-            <div class="mb-3">
-                <a class="btn btn-secondary mx-3" routerLink="../update">Actualizar</a>
-                <a class="btn btn-primary mx-3" routerLink="../../">volver</a>
+
+            <div class="row">
+                <div class="card col-5 m-1">
+                    <div class="card-body">
+                        <img *ngIf="!currentProduct.imagePath" src="../../../assets/images/default-product-image.png"
+                            style="width: 100%;" alt="default-product-image">
+                        <img *ngIf="currentProduct.imagePath" [src]="generateImageUrl( currentProduct.imagePath )"
+                            style="width: 100%; padding: 10%;">
+                    </div>
+                </div>
+
+                <div class="card col-6">
+                    <div class="card-body">
+                        <ul class="list-group list-group-flush mb-3">
+                            <li class="list-group-item">
+                                <p><span style="font-weight: bold;">Id: </span>{{ currentProduct.id }}</p>
+                            </li>
+                            <li class="list-group-item">
+                                <p><span style="font-weight: bold;">Nombre:</span> {{ currentProduct.name }}</p>
+                            </li>
+                            <li class="list-group-item">
+                                <p><span style="font-weight: bold;">Modelo:</span> {{ currentProduct.model }}</p>
+                            </li>
+                            <li class="list-group-item">
+
+                                <p><span style="font-weight: bold;">Precio:</span> ${{ currentProduct.price | number :
+                                    '1.0-5' }}</p>
+                            </li>
+                            <li class="list-group-item">
+                                <p><span style="font-weight: bold;">Stock:</span> {{ currentProduct.stock }}</p>
+                            </li>
+                        </ul>
+
+                        <div class="mb-3">
+                            <a class="btn btn-secondary mx-3" routerLink="../update">Actualizar</a>
+                            <a class="btn btn-primary mx-3" routerLink="../../">volver</a>
+                        </div>
+                    </div>
+                </div>
+
+
+
             </div>
-    
-    
+
+
         </div>
-    
+
     </div>
 </div>
-
-

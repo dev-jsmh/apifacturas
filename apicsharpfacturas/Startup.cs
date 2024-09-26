@@ -52,8 +52,10 @@ namespace apicsharpfacturas
             // make "Resources/Uploads/Images" folder servable so the client app ( angular ) can access its content
             app.UseStaticFiles(new StaticFileOptions()
             {
-                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"Resources")),
-                RequestPath = new PathString("/Resources")
+                FileProvider = new PhysicalFileProvider(
+                    Path.Combine(Directory.GetCurrentDirectory(), @"Resources")
+                    ),
+                RequestPath = new PathString("/api/v1/Resources") 
             });
             app.UseRouting();
             // swagger

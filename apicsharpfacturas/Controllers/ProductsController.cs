@@ -58,54 +58,51 @@ namespace apicsharpfacturas.Controllers
 
 		// ------------- post product -------------
 		[HttpPost]
-		public async Task<ActionResult<ProductEntity>> SaveProduct([FromBody] ProductRequest productReq )
+		public async Task<ActionResult<ProductEntity>> SaveProduct([FromForm] ProductRequest productReq)
 		{
 			if (productReq == null)
 			{
 				return BadRequest("El objeto recibido es nulo");
 			}
-			else
+
+			var file = Request.Form.Files[0];
+
+			// create instance for a new product
+			var newProduct = new ProductEntity();
+			// map properties from request to product
+			newProduct.name = productReq.name;
+			newProduct.model = productReq.model;
+			newProduct.price = productReq.price;
+			newProduct.stock = productReq.stock;
+
+			/// process image file from request
+			
+			var folderName = Path.Combine("Resources", "Uploads", "Images");
+			var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+			// check if the file has a length
+			if (file.Length > 0)
 			{
+				var imageName = ContentDispositionHeaderValue.Parse( file.ContentDisposition).FileName.Trim('"');
+				var fullPath = Path.Combine(pathToSave, imageName);
+				var dbPath = Path.Combine(folderName, imageName);
 
-				var newProduct = new ProductEntity();
-
-				newProduct.name = productReq.name;
-				newProduct.model = productReq.model;
-				newProduct.price = productReq.price;
-				newProduct.stock = productReq.stock;
-
-					
-			/*
-				var file = newProduct.image;
-				var folderName = Path.Combine("Resources", "Uploads", "Images");
-				var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName );
-
-				if ( file.Length > 0 )
+				using (var stream = new FileStream(fullPath, FileMode.Create))
 				{
-					var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition ).FileName.Trim('"');
-					var fullPath = Path.Combine(pathToSave, fileName);
-					var dbPath = Path.Combine(folderName, fileName);
+					file.CopyTo(stream);
 
-					using ( var stream = new FileStream( fullPath, FileMode.Create ))
-					{
-						file.CopyTo(stream);
-					}
-					// set new image url to product
-					
-					Console.Write( "File succesfully save to " + fullPath);
 
-				}else
-				{
-					Console.WriteLine( "File could not be save. Please try again ! ");
-				}*/
+				}
+				// set image url 
+				newProduct.imagePath = dbPath;
+			}
 
-				this._context.products.Add(newProduct);
-				await this._context.SaveChangesAsync();
-				return Ok(newProduct);
-
-			};
+			// save product data in data base
+			this._context.products.Add(newProduct);
+			await this._context.SaveChangesAsync();
+			return Ok(newProduct);
 
 		}
+
 		// ------------- put product -------------
 		[HttpPut("{id}")]
 		public async Task<ActionResult<ProductEntity>> UpdateProduct([FromRoute] int id, [FromBody] ProductEntity productReq)
@@ -167,4 +164,5 @@ namespace apicsharpfacturas.Controllers
 	}
 
 }
+
 

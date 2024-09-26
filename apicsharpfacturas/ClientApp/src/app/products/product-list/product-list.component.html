@@ -19,8 +19,10 @@
                     <div class="card-header">
                         producto
                     </div>
-                    <img src="../../../assets/images/default-product-image.png" alt="default-product-image">
+                    <img *ngIf="!product.imagePath" src="../../../assets/images/default-product-image.png" style="width: 100%;"  alt="default-product-image" >
+                    <img *ngIf="product.imagePath" [src]="generateImageUrl( product.imagePath )" style="width: 100%; padding: 10%;">
                     <div class="card-body">
+                        <p> <span style="font-weight: bold">Id: </span> {{ product.id }}</p>
                         <p> <span style="font-weight: bold">Nombre: </span> {{ product.name }}</p>
                         <p> <span style="font-weight: bold">V.unit: </span> ${{ product.price | number : '1.0-5' }}</p>
                     </div>

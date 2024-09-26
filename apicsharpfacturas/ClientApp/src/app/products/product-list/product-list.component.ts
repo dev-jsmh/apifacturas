@@ -38,6 +38,8 @@ export class ProductListComponent {
 
   }
 
-
+  generateImageUrl( imagePath: string ){
+    return "https://localhost:7125/api/v1/" + imagePath ;
+  }
 
 }
