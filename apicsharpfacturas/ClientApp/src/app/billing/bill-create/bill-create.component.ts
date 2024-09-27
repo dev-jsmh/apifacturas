@@ -43,6 +43,7 @@ export class BillCreateComponent {
   ///  =========================== bill form ===========================
   public billDiscount: FormControl = new FormControl(0, Validators.required);
   public billDate: FormControl = new FormControl('', Validators.required);
+  public billTotalItems: number = 0;
 
   // data of bill
   public billSubTotal: number = 0;
@@ -158,14 +159,27 @@ export class BillCreateComponent {
     }
     // calculate total value with discount 
     this.billTotal = this.billSubTotal - this.billDiscount.value;
+
+    // calculate total items bought for client 
+    this.billTotalItems = this.calculateTotalItems( this.detailList );
     // print bill information in console
     console.log("Fecha de factura: " + this.billDate.value);
+    console.log("Articulos Totales: " + this.billTotalItems );
     console.log("subtotal: " + this.billSubTotal);
     console.log("Descuento: " + this.billDiscount.value);
     console.log("total: " + this.billTotal);
     // console.log(this.detailList);
   }
 
+  calculateTotalItems(itemList: BillDetailEntity[]) {
+
+    let totalItems = 0;
+    for( var index = 0; itemList.length > index; index++ ){
+      totalItems += itemList[index].quantity!;
+    }
+    // return result
+    return totalItems;
+  }
   /*
   formIsValid() {
 
@@ -206,8 +220,10 @@ export class BillCreateComponent {
     billData.totalValue = this.billTotal;
     billData.client = this.currentClient;
     // get the date value
-    billData.date =  this.billDate.value;
+    billData.date = this.billDate.value;
     billData.details = this.detailList;
+    // get the total items
+    billData.totalItems = this.calculateTotalItems( this.detailList );
     // make post request to back-end api
     this.billService.post(this.clientId, billData).subscribe({
       next: (res: any) => {

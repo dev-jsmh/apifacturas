@@ -58,7 +58,7 @@ export class BillingDashboardComponent implements OnInit {
         // initialize the table when the angular component is contructed
         this.table = new DataTable('#billsTable', {
           columns: [
-            { title: 'id' },
+            { title: 'Id Factura' },
             { title: 'fecha' },
             { title: 'sub-total' },
             { title: 'descuento' },

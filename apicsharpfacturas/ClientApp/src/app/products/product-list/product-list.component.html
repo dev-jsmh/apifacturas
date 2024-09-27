@@ -12,15 +12,18 @@
     </div>
 
     <!-- grid of products -->
-     <div class="p-3" style="overflow-y: scroll; height: 600px">
+     <div class="p-3" style="overflow-y: scroll; height: 70vh">
         <div class="row">
             <div *ngFor="let product of productList" class="col-sm-12 col-md-6 col-lg-3 mb-3">
                 <div class="card">
                     <div class="card-header">
                         producto
                     </div>
-                    <img *ngIf="!product.imagePath" src="../../../assets/images/default-product-image.png" style="width: 100%;"  alt="default-product-image" >
-                    <img *ngIf="product.imagePath" [src]="generateImageUrl( product.imagePath )" style="width: 100%; padding: 10%;">
+                    <div style="min-height: 300px" >
+                        <img *ngIf="!product.imagePath" src="../../../assets/images/default-product-image.png" style="width: 100%; padding: 0.5rem" alt="default-product-image" >
+                    <img *ngIf="product.imagePath" [src]="productService.generateImageUrl( product.imagePath )" style="width: 100%; padding: 0.5rem" >
+                    </div>
+                    
                     <div class="card-body">
                         <p> <span style="font-weight: bold">Id: </span> {{ product.id }}</p>
                         <p> <span style="font-weight: bold">Nombre: </span> {{ product.name }}</p>

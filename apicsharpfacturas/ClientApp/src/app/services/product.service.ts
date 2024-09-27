@@ -37,8 +37,16 @@ export class ProductService {
     return this.http.delete(apiUrl + "/Products/" + id);
   }
   // ======================== delete product ====================
-  update(id: string, productMod: ProductEntity) {
+  update(id: string, productMod: any) {
     return this.http.put(apiUrl + "/Products/" + id, productMod);
+  }
+
+
+  // ======================== other methods ====================
+
+  // image url
+  generateImageUrl( imagePath: string | undefined ){
+    return "https://localhost:7125/api/v1/" + imagePath ;
   }
 
 }

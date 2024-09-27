@@ -56,7 +56,8 @@
                             <tr *ngFor="let detail of currentBill.details">
                                 <td>{{ detail?.product?.id }}</td>
                                 <td>
-                                    <img src="../../../assets/images/default-product-image.png" style="width: 50px;" alt="default-product-image">
+                                    <img *ngIf="!detail.product?.imagePath" src="../../../assets/images/default-product-image.png" style="width: 50px;" alt="default-product-image">
+                                    <img *ngIf="detail.product?.imagePath" [src]="productService.generateImageUrl( detail.product?.imagePath )" style="width: 50px;" alt="default-product-image">
                                 </td>
                                 <td>{{ detail?.product?.name }}</td>
                                 <td> {{ detail?.product?.model }}</td>
@@ -72,7 +73,7 @@
             <div class="card  mt-3 mb-3">
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">
-                        <span style="font-weight: bold;">Total Items: </span> {{ totalNumberOfProducts }}
+                        <span style="font-weight: bold;">Total Items: </span> {{ currentBill.totalItems }}
                     </li>
                     <li class="list-group-item">
                         <span style="font-weight: bold;">Sub-Total: </span>{{ currentBill.subTotal | number : '1.0-5' }}

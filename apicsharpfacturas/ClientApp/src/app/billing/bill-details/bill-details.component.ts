@@ -4,6 +4,7 @@ import { BillEntity } from 'src/app/models/BillEntity';
 import { BillService } from 'src/app/services/bill.service';
 import { Location } from '@angular/common';
 import { BillDetailEntity } from 'src/app/models/BillDetailEntity';
+import { ProductService } from 'src/app/services/product.service';
 
 @Component({
   selector: 'app-bill-details',
@@ -21,13 +22,15 @@ export class BillDetailsComponent {
     private billService: BillService,
     private route: ActivatedRoute,
     private location: Location,
+    public productService: ProductService,
     private router: Router) {
-
 
     // this bill id from route
     this.route.params.subscribe({
       next: (params) => {
         this.billId = params['id'];
+        
+this.productService.generateImageUrl( "");
         console.log("Id of current bill " + this.billId);
       }, error(err) {
         console.log("Not posible to get bill id from route !");
@@ -70,4 +73,7 @@ export class BillDetailsComponent {
     // return the total number of items
     return totalItems;
   }
+
+
+  
 }

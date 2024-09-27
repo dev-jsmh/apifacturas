@@ -90,7 +90,6 @@ namespace apicsharpfacturas.Controllers
 				{
 					file.CopyTo(stream);
 
-
 				}
 				// set image url 
 				newProduct.imagePath = dbPath;
@@ -102,10 +101,9 @@ namespace apicsharpfacturas.Controllers
 			return Ok(newProduct);
 
 		}
-
 		// ------------- put product -------------
 		[HttpPut("{id}")]
-		public async Task<ActionResult<ProductEntity>> UpdateProduct([FromRoute] int id, [FromBody] ProductEntity productReq)
+		public async Task<ActionResult<ProductEntity>> UpdateProduct([FromRoute] int id, [FromForm] ProductRequest productReq)
 		{
 			// validates if product exists
 			if (id == 0)
@@ -113,6 +111,7 @@ namespace apicsharpfacturas.Controllers
 				return BadRequest("El id no puede ser igual a cero.");
 			}
 
+				// product taken from database
 			var productTemp = await this._context.products.FindAsync(id);
 
 			if (productTemp != null)
@@ -124,8 +123,39 @@ namespace apicsharpfacturas.Controllers
 				productTemp.price = productReq.price;
 				productTemp.stock = productReq.stock;
 
-				// save entity on data base 
-				this._context.Entry(productTemp).State = EntityState.Modified;
+				// save image if exits in the request
+				var folderPath = Path.Combine("Resources", "Uploads", "Images");
+				var pathToSave = Path.Combine( Directory.GetCurrentDirectory(), folderPath );
+
+               
+				/// check if there exists a file in the request
+                if (Request.Form.Files.Count > 0)
+                {
+                    // image file
+                    var formFile = Request.Form.Files[0];
+					IFormFile imageFile = formFile;
+
+                    if (imageFile.Length > 0)
+                    {
+                        var imageName = ContentDispositionHeaderValue.Parse(imageFile.ContentDisposition).FileName.Trim('"');
+                        var fullPath = Path.Combine(pathToSave, imageName);
+                        var dbPath = Path.Combine(folderPath, imageName);
+
+                        // 
+                        using (var stream = new FileStream(fullPath, FileMode.Create))
+                        {
+                            // copy the upload file to the specified folder location with create mode
+                            imageFile.CopyTo(stream);
+                        }
+                        // set the new image path to product.imagePath property
+                        productTemp.imagePath = dbPath;
+
+                    }
+                }
+
+
+                // save entity on data base 
+                this._context.Entry(productTemp).State = EntityState.Modified;
 				await this._context.SaveChangesAsync();
 				// return result 
 				return Ok(productTemp);

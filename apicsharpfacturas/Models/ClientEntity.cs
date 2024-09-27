@@ -16,6 +16,8 @@ namespace apicsharpfacturas.Models
         public string names { get; set; }
         [Column(TypeName = "varchar(255)")]
         public string lastnames { get; set; }
+        public string? phone { get; set; }
+        public string? address { get; set; }
         public List<BillEntity> bills { get; set; }
 
     }

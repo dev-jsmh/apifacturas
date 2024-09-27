@@ -33,7 +33,9 @@ export class ClientCreateComponent {
     // create form 
     this.createClientForm = this.fb.group({
       "names": ['', Validators.required],
-      "lastnames": ['', Validators.required]
+      "lastnames": ['', Validators.required],
+      "phone": ['', Validators.maxLength( 10 ) ],
+      "address": ['']
     });
 
   }
@@ -44,6 +46,8 @@ export class ClientCreateComponent {
 
     this.newClient.names = this.createClientForm.get('names')?.value;
     this.newClient.lastnames = this.createClientForm.get('lastnames')?.value;
+    this.newClient.phone = this.createClientForm.get("phone")?.value;
+    this.newClient.address = this.createClientForm.get("address")?.value;
     this.newClient.bills = [];
 
     // make request to back-end

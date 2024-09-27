@@ -105,6 +105,8 @@ namespace apicsharpfacturas.Controllers
             {
                 clientTemp.names = clientReq.names;
                 clientTemp.lastnames = clientReq.lastnames;
+                clientTemp.phone = clientReq.phone;
+                clientTemp.address = clientReq.address; 
                 // save on data base
                 this._context.Entry(clientTemp).State = EntityState.Modified;
                 await this._context.SaveChangesAsync();
@@ -159,6 +161,7 @@ namespace apicsharpfacturas.Controllers
                 billTemp.totalValue = billReq.totalValue;
                 billTemp.client = clientTemp;
                 billTemp.date = billReq.date;
+                billTemp.totalItems = billReq.totalItems;
 
                 this._context.bills.Add(billTemp);
 

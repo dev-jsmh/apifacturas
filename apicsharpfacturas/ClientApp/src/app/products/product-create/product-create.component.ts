@@ -44,7 +44,7 @@ export class ProductCreateComponent {
     );
   }
 
-  uploadImage(event: any) {
+  HandleImageUpload(event: any) {
     const image = event.target.files[0];
     // add image file to formData
     this.data.set("image", image);

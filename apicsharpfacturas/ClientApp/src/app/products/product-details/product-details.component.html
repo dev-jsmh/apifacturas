@@ -9,17 +9,16 @@
         </div>
         <div class="card-body">
 
-            <div class="row">
-                <div class="card col-5 m-1">
+            <div class="row justify-content-center">
+                <div class="card col-sm-12 col-md-12 col-lg-5 m-1">
                     <div class="card-body">
                         <img *ngIf="!currentProduct.imagePath" src="../../../assets/images/default-product-image.png"
                             style="width: 100%;" alt="default-product-image">
-                        <img *ngIf="currentProduct.imagePath" [src]="generateImageUrl( currentProduct.imagePath )"
+                        <img *ngIf="currentProduct.imagePath" [src]="productService.generateImageUrl( currentProduct.imagePath )"
                             style="width: 100%; padding: 10%;">
                     </div>
                 </div>
-
-                <div class="card col-6">
+                <div class="card col-sm-12 col-md-12 col-lg-6  m-1">
                     <div class="card-body">
                         <ul class="list-group list-group-flush mb-3">
                             <li class="list-group-item">
@@ -41,18 +40,14 @@
                             </li>
                         </ul>
 
-                        <div class="mb-3">
-                            <a class="btn btn-secondary mx-3" routerLink="../update">Actualizar</a>
-                            <a class="btn btn-primary mx-3" routerLink="../../">volver</a>
-                        </div>
+                     
                     </div>
                 </div>
-
-
-
+                <!-- accion buttons -->
+                <div class="mb-3 mt-3">
+                    <a class="btn btn-secondary mx-3" routerLink="../update">Actualizar</a>
+                </div>
             </div>
-
-
         </div>
 
     </div>

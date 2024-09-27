@@ -20,6 +20,14 @@
                     <label for="">Apellidos</label>
                     <input class="form-control" type="text" formControlName="lastnames">
                 </div>
+                <div class="mb-3">
+                    <label for="">Telefono</label>
+                    <input class="form-control" type="text" formControlName="phone">
+                </div>
+                <div class="mb-3">
+                    <label for="">Dirección</label>
+                    <input class="form-control" type="text" formControlName="address" >
+                </div>
 
             </form>
             <div class="mb-3">
@@ -29,8 +37,6 @@
                     (click)="modalService.openModal('confirmSubmitActionModal')">
                     guardar
                 </button>
-                <a class="btn btn-primary mx-1" routerLink="../">cancelar</a>
-
             </div>
         </div>
     </div> 

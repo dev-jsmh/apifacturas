@@ -11,5 +11,6 @@ export class BillEntity{
     public subTotal?: number;
     public discount?: number;
     public totalValue?: number; 
+    public totalItems?: number;
     public details?: BillDetailEntity[];
 }

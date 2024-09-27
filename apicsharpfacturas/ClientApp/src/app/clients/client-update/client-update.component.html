@@ -1,6 +1,6 @@
 <div class="container-fluid">
     <a routerLink="../details">
-        <i class="bi bi-arrow-left" style="font-weight: bold; font-size: 40px" ></i>
+        <i class="bi bi-arrow-left" style="font-weight: bold; font-size: 40px"></i>
     </a>
 </div>
 
@@ -9,32 +9,41 @@
         <div class="card-header">
             <h5>Actualizar Datos del Cliente</h5>
         </div>
-      <div class="card-body">
-        <form *ngIf="clientIsLoaded" [formGroup]="updateClientForm">
-    
-            <div class="mb-3">
-                <label for="">Nombres</label>
-                <input class="form-control" type="text" value="{{ currentClient.id}}">
-            </div>
-    
-            <div class="mb-3">
-                <label for="">Nombres</label>
-                <input class="form-control" type="text" formControlName="names">
-            </div>
-            <div class="mb-3">
-                <label for="">Apellidos</label>
-                <input class="form-control" type="text" formControlName="lastnames">
-            </div>
-            <div class="mb-3">
-                <button class="btn btn-secondary mx-1" type="button"
-                    [disabled]="updateClientForm.valid && !updateClientForm.dirty"
-                    (click)="modalService.openModal('confirmUpdateClientActionModal')">
-                    guardar
-                </button>
-                <a class="btn btn-primary mx-1" routerLink="../details">cancelar</a>
-            </div>
-        </form>
-      </div>
+        <div class="card-body">
+            <form *ngIf="clientIsLoaded" [formGroup]="updateClientForm">
+
+                <div class="mb-3">
+                    <label for="">Id</label>
+                    <input class="form-control" type="text" value="{{ currentClient.id}}">
+                </div>
+
+                <div class="mb-3">
+                    <label for="">Nombres</label>
+                    <input class="form-control" type="text" formControlName="names">
+                </div>
+                <div class="mb-3">
+                    <label for="">Apellidos</label>
+                    <input class="form-control" type="text" formControlName="lastnames">
+                </div>
+                <div class="mb-3">
+                    <label for="">Phone</label>
+                    <input class="form-control" type="text" formControlName="phone">
+                </div>
+                <div class="mb-3">
+                    <label for="">Direccion</label>
+                    <input class="form-control" type="text" formControlName="address" >
+                </div>
+
+                <div class="mb-3">
+                    <button class="btn btn-secondary mx-1" type="button"
+                        [disabled]="updateClientForm.valid && !updateClientForm.dirty"
+                        (click)="modalService.openModal('confirmUpdateClientActionModal')">
+                        guardar
+                    </button>
+                    <a class="btn btn-primary mx-1" routerLink="../details">cancelar</a>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 
@@ -70,11 +79,10 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <h5>Los datos se acualizaron correctamente !</h5>
-                <div class="text-centes">
-                    <i class="bi bi-check" style="font-size: 50px;"></i>
+                <div style="font-weight: bold;" class="text-center m-2">
+                    <p class="m-2">Los datos han sido acualizados correctamente !</p>
+                    <i class="bi bi-check-circle" style="font-size: 80px; color: rgb(106, 223, 106)"></i>
                 </div>
-
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary"

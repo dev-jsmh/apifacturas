@@ -13,6 +13,9 @@ namespace apicsharpfacturas.Models
         public double? discount { get; set; }
         public double totalValue { get; set; }
        public List<BillDetailEntity> details { get; set; }
+
+       // number of total items
+       public int totalItems { get; set; }
     } 
 
 }

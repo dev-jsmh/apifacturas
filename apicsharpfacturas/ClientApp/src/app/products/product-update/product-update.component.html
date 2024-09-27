@@ -1,63 +1,79 @@
 <div class="container-fluid">
 
     <a routerLink="../details">
-        <i class="bi bi-arrow-left" style="font-weight: bold; font-size: 40px;" ></i>
+        <i class="bi bi-arrow-left" style="font-weight: bold; font-size: 40px;"></i>
     </a>
 </div>
 
 
 <div class="container d-flex justify-content-center aling-items-center">
 
-    <div class="card col-6">
+    <div class="card mt-3">
         <div class="card-header">
             <h5>Actualizar Datos Producto</h5>
         </div>
         <div class="card-body">
-            <form *ngIf="isLoaded" [formGroup]="updateProductForm">
 
-                <div class="mb-3">
-                    <label>Id</label>
-                    <input class="form-control" value="{{productId}}">
-                </div>
-                <div class="mb-3">
-                    <label>Nombre</label>
-                    <input class="form-control" type="text" formControlName="name">
-                    <div *ngIf="updateProductForm.get('name')?.invalid && updateProductForm.get('name')?.touched"
-                        class="text-danger">
-                        El nombre es obligatorio
+            <div class="row justify-content-center ">
+                <div class="card col-sm-12 col-md-12 col-lg-5 m-1">
+                    <div class="card-body">
+                        <img *ngIf="!currentProduct.imagePath" src="../../../assets/images/default-product-image.png"
+                            style="width: 100%" alt="defaul-product-image">
+
+                        <img *ngIf="currentProduct.imagePath"
+                            [src]="productService.generateImageUrl( currentProduct.imagePath )" style="width: 100%"
+                            alt="defaul-product-image">
                     </div>
                 </div>
-                <div class="mb-3">
-                    <label>Modelo</label>
-                    <input class="form-control" type="text" formControlName="model">
-                    <div *ngIf="updateProductForm.get('model')?.invalid && updateProductForm.get('model')?.touched "
-                        class="text-danger">
-                        El modelo es obligatorio
-                    </div>
+                <div class="card col-sm-12 col-md-12 col-lg-6 m-1">
+                    <form *ngIf="isLoaded" [formGroup]="updateProductForm">
+                        <div class="mb-3">
+                            <label>Id</label>
+                            <input class="form-control" value="{{productId}}">
+                        </div>
+                        <div class="mb-3">
+                            <label>Nombre</label>
+                            <input class="form-control" type="text" formControlName="name">
+                            <div *ngIf="updateProductForm.get('name')?.invalid && updateProductForm.get('name')?.touched"
+                                class="text-danger">
+                                El nombre es obligatorio
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label>Modelo</label>
+                            <input class="form-control" type="text" formControlName="model">
+                            <div *ngIf="updateProductForm.get('model')?.invalid && updateProductForm.get('model')?.touched "
+                                class="text-danger">
+                                El modelo es obligatorio
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label>Precio</label>
+                            <input class="form-control" type="number" formControlName="price">
+                            <div *ngIf="updateProductForm.get('price')?.invalid &&  updateProductForm.get('price')?.touched"
+                                class="text-danger">
+                                El precio es obligatorio
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label>Stock</label>
+                            <input class="form-control" type="number" formControlName="stock">
+                            <div *ngIf="updateProductForm.get('stock')?.invalid && updateProductForm.get('stock')?.touched"
+                                class="text-danger">
+                                La cantidad es obligatoria
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="">Imagen</label>
+                            <input class="form-control" type="file" (change)="handleImageUpload($event)">
+                        </div>
+                    </form>
                 </div>
-                <div class="mb-3">
-                    <label>Precio</label>
-                    <input class="form-control" type="number" formControlName="price">
-                    <div *ngIf="updateProductForm.get('price')?.invalid &&  updateProductForm.get('price')?.touched"
-                        class="text-danger">
-                        El precio es obligatorio
-                    </div>
-                </div>
-                <div class="mb-3">
-                    <label>Stock</label>
-                    <input class="form-control" type="number" formControlName="stock">
-                    <div *ngIf="updateProductForm.get('stock')?.invalid && updateProductForm.get('stock')?.touched"
-                        class="text-danger">
-                        La cantidad es obligatoria
-                    </div>
-                </div>
-            </form>
-            <div class="mb-3">
-                <a class="btn btn-primary" routerLink="../details">cancelar</a>
-                <button 
-                class="btn btn-secondary" 
-                [disabled]="!updateProductForm.dirty && updateProductForm.valid" 
-                (click)="modalService.openModal('confirmUpdateProductModal')">
+            </div>
+            <div class="mb-3 mt-3">
+
+                <button class="btn btn-secondary" [disabled]="!updateProductForm.dirty && updateProductForm.valid"
+                    (click)="modalService.openModal('confirmUpdateProductModal')">
                     guardar
                 </button>
             </div>
@@ -78,7 +94,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-                <button type="button" class="btn btn-primary" (click)="onSubmit()" >
+                <button type="button" class="btn btn-primary" (click)="onSubmit()">
                     <span *ngIf="isUpdateInProccess == false">Guardar</span>
                     <app-spinner *ngIf="isUpdateInProccess == true"></app-spinner>
                 </button>
@@ -93,15 +109,13 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Operacion Exitosa</h1>
-               
+
             </div>
             <div class="modal-body">
-               
                 <div style="font-weight: bold;" class="text-center m-2">
                     <p class="m-2">El producto fue actualizado con exito !</p>
                     <i class="bi bi-check-circle" style="font-size: 80px; color: rgb(106, 223, 106)"></i>
                 </div>
-
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary"
@@ -117,11 +131,12 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Error</h1>
-             
+
             </div>
             <div class="modal-body">
                 <div class="text-center m-2">
-                    <i class="bi bi-x-circle" style="font-size: 80px; font-weight: bold; color: rgb(223, 106, 106);"></i>
+                    <i class="bi bi-x-circle"
+                        style="font-size: 80px; font-weight: bold; color: rgb(223, 106, 106);"></i>
                     <p style="color: rgb(255, 0, 0);"> Error: Internal Server Error</p>
                     <p> Mensaje: {{ HttpError.message }}</p>
                     <p> Status: {{ HttpError.status }}</p>
@@ -134,4 +149,4 @@
             </div>
         </div>
     </div>
-</div> 
+</div>

@@ -20,14 +20,21 @@ export class ClientUpdateComponent {
   public clientId = '';
   // instance for the client
   public currentClient: ClientEntity = new ClientEntity();
-  // form 
-  public updateClientForm: any;
   // 
   public clientIsLoaded = false;
   // 
   updateInProccess = false;
   // 
   clientDetailUrl = '/clients/' + this.clientId + '/details';
+
+  // form 
+  public updateClientForm: FormGroup = this.fb.group(
+    {
+      "names": ["", Validators.required],
+      "lastnames": ["", Validators.required],
+      "phone": [""],
+      "address": [""],
+    });
 
   // =============== constructor ===============
   // inject dependencies within the constructor 
@@ -56,6 +63,25 @@ export class ClientUpdateComponent {
         // set response to the currentClient variable
         this.currentClient = res;
 
+        // =============== form ===============
+        /* 
+        this.updateClientForm.controls["names"].setValue(this.currentClient.names);
+        this.updateClientForm.controls["lastnames"].setValue(this.currentClient.lastnames);
+        this.updateClientForm.controls["phone"].setValue(this.currentClient.phone);
+        this.updateClientForm.controls["address"].setValue(this.currentClient.address);
+*/
+
+        this.updateClientForm.patchValue({
+          "names": this.currentClient.names,
+          "lastnames": this.currentClient.lastnames,
+          "phone": this.currentClient.phone,
+          "address": this.currentClient.address
+
+        });
+
+
+        this.clientIsLoaded = true;
+
         console.log("Detalles del cliente. ");
         console.log(this.currentClient);
       },
@@ -64,28 +90,19 @@ export class ClientUpdateComponent {
         console.log(ex);
       }
     });
-
-    // set data to form after 1sg
-    setTimeout(() => {
-      // =============== form ===============
-      this.updateClientForm = this.fb.group({
-        "names": [this.currentClient.names, Validators.required],
-        "lastnames": [this.currentClient.lastnames, Validators.required],
-
-
-      });
-
-      this.clientIsLoaded = true;
-    }, 100);
-
   }
+
+
 
   // =============== method to handle form ===============
   onSubmit() {
     this.updateInProccess = true;
     // set data from the form to the currentClient variable 
-    this.currentClient.names = this.updateClientForm.get('names')?.value;
-    this.currentClient.lastnames = this.updateClientForm.get('lastnames')?.value;
+    this.currentClient.names = this.updateClientForm.get("names")?.value
+    this.currentClient.lastnames = this.updateClientForm.get("lastnames")?.value
+    this.currentClient.phone = this.updateClientForm.get("phone")?.value
+    this.currentClient.address = this.updateClientForm.get("address")?.value 
+
     // ===============  make post request ================
     this.clientService.update(this.clientId, this.currentClient).subscribe({
       next: (res: any) => {
@@ -96,19 +113,19 @@ export class ClientUpdateComponent {
         // close confirm update action modal
         this.modalService.closeModal('confirmUpdateClientActionModal');
         // wait 200msg
-        setTimeout( () => {
+        setTimeout(() => {
           this.modalService.openModal('successUpdateClientModal');
         }, 200);
       }, // print error message in console
-      error: ( err: HttpErrorResponse) => {
+      error: (err: HttpErrorResponse) => {
         this.updateInProccess = false;
         this.HttpError = err;
         console.log("Error when trying to update client data: ");
         console.log(err);
-         // close confirm update action modal
-         this.modalService.closeModal('confirmUpdateClientActionModal');
-         // wait 200msg
-        setTimeout( () => {
+        // close confirm update action modal
+        this.modalService.closeModal('confirmUpdateClientActionModal');
+        // wait 200msg
+        setTimeout(() => {
           this.modalService.openModal('errorUpdateClientModal');
         }, 200);
       }
