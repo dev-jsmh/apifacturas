@@ -12,18 +12,21 @@
     </div>
 
     <!-- grid of products -->
-     <div class="p-3" style="overflow-y: scroll; height: 70vh">
+    <div class="p-3" style="overflow-y: scroll; height: 70vh">
         <div class="row">
             <div *ngFor="let product of productList" class="col-sm-12 col-md-6 col-lg-3 mb-3">
                 <div class="card">
                     <div class="card-header">
                         producto
                     </div>
-                    <div style="min-height: 300px" >
-                        <img *ngIf="!product.imagePath" src="../../../assets/images/default-product-image.png" style="width: 100%; padding: 0.5rem" alt="default-product-image" >
-                    <img *ngIf="product.imagePath" [src]="productService.generateImageUrl( product.imagePath )" style="width: 100%; padding: 0.5rem" >
+
+                    <div style="min-height: 300px; padding: 0.5rem">
+                        <img *ngIf="!product.imagePath" src="../../../assets/images/default-product-image.png"
+                            style="width: 100%;height: 100%; object-fit: contain; " alt="default-product-image">
+                        <img *ngIf="product.imagePath" [src]="productService.generateImageUrl( product.imagePath )"
+                            style="width: 100%; height: 100%; object-fit: contain;">
                     </div>
-                    
+
                     <div class="card-body">
                         <p> <span style="font-weight: bold">Id: </span> {{ product.id }}</p>
                         <p> <span style="font-weight: bold">Nombre: </span> {{ product.name }}</p>
@@ -35,7 +38,7 @@
                 </div>
             </div>
         </div>
-     </div>
+    </div>
     <!-- 
   <table id="productDashboarTable" class="table table-striped table-bordered table-sm row-border hover">
         <thead>

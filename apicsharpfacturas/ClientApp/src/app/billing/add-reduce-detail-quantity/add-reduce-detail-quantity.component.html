@@ -1,5 +1,9 @@
-<div>
-    <button (click)="add()">+</button>
-    <span> {{ currentTdetail.quantity }}</span>
-    <button (click)="reduce()"> - </button>
+<div class="d-flex justify-content-evenly">
+    <button class="btn btn-danger" (click)="reduce()">
+        <i class="bi bi-dash-circle" ></i>
+    </button>
+    <span class="mx-3"> {{ currentTdetail.quantity }}</span>
+    <button class="btn btn-success" (click)="add()">
+        <i class="bi bi-plus-circle"></i>
+    </button>
 </div>

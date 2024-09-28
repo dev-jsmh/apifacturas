@@ -20,6 +20,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class BillCreateComponent {
 
+
   // contains an error value for the requeried fields of the form
   public formError: any = {};
 
@@ -111,6 +112,9 @@ export class BillCreateComponent {
     if (this.wantedProducts.includes(p)) {
       console.log("product exist on wantedProductList");
     } else {
+
+      console.log("product comming from the option-selector: ")
+      console.log(p)
       // mapp the product to bill detail
       detail.product = p;
       detail.quantity = 1;
@@ -161,10 +165,10 @@ export class BillCreateComponent {
     this.billTotal = this.billSubTotal - this.billDiscount.value;
 
     // calculate total items bought for client 
-    this.billTotalItems = this.calculateTotalItems( this.detailList );
+    this.billTotalItems = this.calculateTotalItems(this.detailList);
     // print bill information in console
     console.log("Fecha de factura: " + this.billDate.value);
-    console.log("Articulos Totales: " + this.billTotalItems );
+    console.log("Articulos Totales: " + this.billTotalItems);
     console.log("subtotal: " + this.billSubTotal);
     console.log("Descuento: " + this.billDiscount.value);
     console.log("total: " + this.billTotal);
@@ -174,7 +178,7 @@ export class BillCreateComponent {
   calculateTotalItems(itemList: BillDetailEntity[]) {
 
     let totalItems = 0;
-    for( var index = 0; itemList.length > index; index++ ){
+    for (var index = 0; itemList.length > index; index++) {
       totalItems += itemList[index].quantity!;
     }
     // return result
@@ -223,7 +227,7 @@ export class BillCreateComponent {
     billData.date = this.billDate.value;
     billData.details = this.detailList;
     // get the total items
-    billData.totalItems = this.calculateTotalItems( this.detailList );
+    billData.totalItems = this.calculateTotalItems(this.detailList);
     // make post request to back-end api
     this.billService.post(this.clientId, billData).subscribe({
       next: (res: any) => {

@@ -30,6 +30,7 @@ import { ClientDetailsComponent } from './clients/client-details/client-details.
 import { ClientUpdateComponent } from './clients/client-update/client-update.component';
 import { ClientAddProductComponent } from './clients/client-add-product/client-add-product.component';
 import { SpinnerComponent } from './components/spinner/spinner.component';
+import { OptionSelectorComponent } from './components/option-selector/option-selector.component';
 
 
 @NgModule({
@@ -50,6 +51,7 @@ import { SpinnerComponent } from './components/spinner/spinner.component';
     BillingDashboardComponent,
     BillCreateComponent,
     BillDetailsComponent,
+    OptionSelectorComponent,
     AddReduceDetailQuantityComponent,
     PdfbuttonComponent
   ],

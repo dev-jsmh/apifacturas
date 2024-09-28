@@ -1,0 +1,6 @@
+<select class="form-select" (change)="getProduct($event)">
+    <option *ngFor="let product of list" value="{{ product?.id }}">
+        <p>Codigo: {{ product?.id }} {{ product?.name }} {{ product?.model }} {{ product?.price | number : '1.0-2' }}
+        </p>
+    </option>
+</select>

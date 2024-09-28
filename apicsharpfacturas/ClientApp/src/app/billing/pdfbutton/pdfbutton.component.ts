@@ -97,6 +97,7 @@ export class PdfbuttonComponent {
           },
           margin: [20, 40]
         },
+        { text: [{ text: "Total Articulos: ", bold: true, }, { text: this.billData.totalItems, margin: [0, 20] }] },
         { text: [{ text: "Sub-Total: ", bold: true, }, { text: this.billData.subTotal, margin: [0, 20] }] },
         { text: [ { text: "Discount: ", bold: true, }, { text: this.billData.discount, margin: [0, 10] } ] },
         { text: [ { text: "Total a Pagar: ", bold: true }, { text: this.billData.totalValue, margin: [0, 10] }, ] },

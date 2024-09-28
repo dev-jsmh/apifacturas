@@ -6,89 +6,104 @@
 
 <div class="container d-flex justify-content-center">
 
-    <div class="card col-sm-12 col-md-12 col-lg-8 mt-3">
+    <div class="card col-12">
 
         <div class="card-body">
-            <div class="card mt-3 mb-3">
-                <div class="card-header">
-                    <h5>Detalles De Facturación</h5>
+            <div class="row">
+                <!-- billing details -->
+                <div class="col-lg-4">
+                    <div class="card mt-3 mb-3">
+                        <div class="card-header">
+                            <h5>Detalles De Facturación</h5>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item"><span style="font-weight: bold;">Id Factura: </span>
+                                {{ currentBill.id }}
+                            </li>
+                            <li class="list-group-item"> <span style="font-weight: bold;">Fecha registro: </span>
+                                {{ currentBill.date | date : 'long' }}
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="card  mt-3 mb-3">
+                        <div class="card-header">
+                            <h5>Datos del cliente</h5>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item"> <span style="font-weight: bold;">Nombres </span>
+                                {{ currentBill.client?.names }}
+                            </li>
+                            <li class="list-group-item"><span style="font-weight: bold;">Apellidos </span>
+                                {{ currentBill.client?.lastnames }}
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="card  mt-3 mb-3">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                <span style="font-weight: bold;">Total Items: </span> {{ currentBill.totalItems }}
+                            </li>
+                            <li class="list-group-item">
+                                <span style="font-weight: bold;">Sub-Total: </span>{{ currentBill.subTotal | number :
+                                '1.0-5' }}
+                            </li>
+                            <li class="list-group-item">
+                                <span style="font-weight: bold;">Descuento: </span>{{ currentBill.discount | number :
+                                '1.0-5' }}
+                            </li>
+                            <li class="list-group-item">
+                                <span style="font-weight: bold;">Total a Pagar: </span>{{ currentBill.totalValue |
+                                number :
+                                '1.0-5' }}
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- pdf button -->
+                    <div class="mb-3">
+                        <app-pdfbutton [billData]="currentBill"></app-pdfbutton>
+                    </div>
                 </div>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item"><span style="font-weight: bold;">Id Factura: </span>
-                        {{ currentBill.id }}
-                    </li>
-                    <li class="list-group-item"> <span style="font-weight: bold;">Fecha registro: </span>
-                        {{ currentBill.date | date : 'long' }}
-                    </li>
-                </ul>
-            </div>
-            <div class="card  mt-3 mb-3">
-                <div class="card-header">
-                    <h5>Datos del cliente</h5>
+                <!-- item list -->
+                <div class="card col-lg-7 mt-3 mb-3">
+                    <div class="card-header">
+                        <h5>Articulos</h5>
+                    </div>
+                    <div class="card-body" style="overflow-y: scroll;">
+                        <table class="table" >
+                            <thead>
+                                <tr>
+                                    <th>Id producto</th>
+                                    <th>image</th>
+                                    <th>Nombre</th>
+                                    <th>Modelo</th>
+                                    <th>Precio</th>
+                                    <th>Cantidad</th>
+                                    <th>V.total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let detail of currentBill.details">
+                                    <td>{{ detail?.product?.id }}</td>
+                                    <td>
+                                        <img *ngIf="!detail.product?.imagePath"
+                                            src="../../../assets/images/default-product-image.png" style="width: 50px;"
+                                            alt="default-product-image">
+                                        <img *ngIf="detail.product?.imagePath"
+                                            [src]="productService.generateImageUrl( detail.product?.imagePath )"
+                                            style="width: 50px;" alt="default-product-image">
+                                    </td>
+                                    <td>{{ detail?.product?.name }}</td>
+                                    <td> {{ detail?.product?.model }}</td>
+                                    <td>{{ detail?.unitValue | number : '1.0-5' }}</td>
+                                    <td> {{ detail?.quantity | number : '1.0-5' }}</td>
+                                    <td>{{ detail?.totalValue | number : '1.0-5' }}</td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item"> <span style="font-weight: bold;">Nombres </span>
-                        {{ currentBill.client?.names }}
-                    </li>
-                    <li class="list-group-item"><span style="font-weight: bold;">Apellidos </span>
-                        {{ currentBill.client?.lastnames }}
-                    </li>
-                </ul>
-            </div>
-            <div class="card  mt-3 mb-3">
-                <div class="card-header">
-                    <h5>Articulos</h5>
-                </div>
-                <div class="card-body">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Id producto</th>
-                                <th>image</th>
-                                <th>Nombre</th>
-                                <th>Modelo</th>
-                                <th>Precio</th>
-                                <th>Cantidad</th>
-                                <th>V.total</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let detail of currentBill.details">
-                                <td>{{ detail?.product?.id }}</td>
-                                <td>
-                                    <img *ngIf="!detail.product?.imagePath" src="../../../assets/images/default-product-image.png" style="width: 50px;" alt="default-product-image">
-                                    <img *ngIf="detail.product?.imagePath" [src]="productService.generateImageUrl( detail.product?.imagePath )" style="width: 50px;" alt="default-product-image">
-                                </td>
-                                <td>{{ detail?.product?.name }}</td>
-                                <td> {{ detail?.product?.model }}</td>
-                                <td>{{ detail?.product?.price | number : '1.0-5' }}</td>
-                                <td> {{ detail?.quantity | number : '1.0-5' }}</td>
-                                <td>{{ detail?.totalValue | number : '1.0-5' }}</td>
-                            </tr>
-                           
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="card  mt-3 mb-3">
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">
-                        <span style="font-weight: bold;">Total Items: </span> {{ currentBill.totalItems }}
-                    </li>
-                    <li class="list-group-item">
-                        <span style="font-weight: bold;">Sub-Total: </span>{{ currentBill.subTotal | number : '1.0-5' }}
-                    </li>
-                    <li class="list-group-item">
-                        <span style="font-weight: bold;">Descuento: </span>{{ currentBill.discount | number : '1.0-5' }}
-                    </li>
-                    <li class="list-group-item">
-                        <span style="font-weight: bold;">Total a Pagar: </span>{{ currentBill.totalValue | number :
-                        '1.0-5' }}
-                    </li>
-                </ul>
-            </div>
-            <div class="mb-3">
-                <app-pdfbutton [billData]="currentBill"></app-pdfbutton>
             </div>
         </div>
 

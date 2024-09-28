@@ -1,5 +1,5 @@
 <div class="container-fluid">
-<button class="btn btn-primary" (click)="goBack()">volver</button>
+    <button class="btn btn-primary" (click)="goBack()">volver</button>
 </div>
 <div class="container">
 
@@ -22,7 +22,6 @@
                 <p><span style="font-weight: bold;">Subtotal:</span> {{ billSubTotal | number : '1.0-2' }}</p>
             </div>
             <div class="mb-3 d-flex">
-
                 <label style="font-weight: bold;">Descuento</label>
                 <input class="form-control mx-1" type="number" [formControl]="billDiscount">
             </div>
@@ -35,72 +34,45 @@
         </form>
     </div>
     <div class="container mt-5">
-        <h4 class="mt-5">Productos Disponibles</h4>
-        <div class="row">
-            <div class="col-md-4" style="height: 380px; overflow-y: scroll;">
-                <table class="table table-stripe table-dark">
-                    <thead>
-                        <tr>
-                            <th scope="col">Id</th>
-                            <th scope="col">Nombre</th>
-                            <th scope="col">Modelo</th>
-                            <th scope="col">precio</th>
-                            <th scope="col">Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let product of productList">
+        <div class="col-md-12 col-lg-8 mb-3">
+            <h4 class="mt-5">Selecionar productos</h4>
+            <!-- component for selecting the products -->
+            <app-option-selector [list]="productList" (onProductSelection)="addToList($event)" ></app-option-selector>
+        </div>
+        <div class="col-md-12 col-lg-8" style="height: 30vh; overflow-y: scroll;">
+            <table class="table table-stripe">
+                <thead>
+                    <tr>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Modelo</th>
+                        <th scope="col">V.unit</th>
+                        <th scope="col" class="text-center">cantidad</th>
+                        <th scope="col">V.total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let detail of detailList">
+                        <td>{{ detail.product?.name }}</td>
+                        <td>{{ detail?.product?.model }}</td>
+                        <td>{{ detail!.product!.price | number : '1.0-2' }}</td>
+                        <td>
 
-                            <td>{{ product?.id }}</td>
-                            <td>{{ product?.name }}</td>
-                            <td>{{ product?.model }}</td>
-                            <td>{{ product?.price | number : '1.0-2' }}</td>
-                            <td>
-                                <div>
-                                    <button (click)="addToList(product)">+</button>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                            <app-add-reduce-detail-quantity [currentTdetail]="detail"
+                                (onDetailChange)="updateDetail($event)"></app-add-reduce-detail-quantity>
 
-            </div>
+                        </td>
+                        <td>{{ detail.totalValue | number : '1.0-2' }}</td>
+                    </tr>
 
-            <div class="col-md-8" style="height: 380px; overflow-y: scroll;">
-                <table class="table table-stripe table-dark">
-                    <thead>
-                        <tr>
-                            <th scope="col">Nombre</th>
-                            <th scope="col">Modelo</th>
-                            <th scope="col">V.unit</th>
-                            <th scope="col">cantidad</th>
-                            <th scope="col">V.total</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let detail of detailList">
-                            <td>{{ detail.product?.name }}</td>
-                            <td>{{ detail?.product?.model }}</td>
-                            <td>{{ detail!.product!.price | number : '1.0-2' }}</td>
-                            <td>
-
-                                <app-add-reduce-detail-quantity [currentTdetail]="detail"
-                                    (onDetailChange)="updateDetail($event)"></app-add-reduce-detail-quantity>
-
-                            </td>
-                            <td>{{ detail.totalValue | number : '1.0-2' }}</td>
-                        </tr>
-
-                    </tbody>
-                </table>
-            </div>
+                </tbody>
+            </table>
         </div>
         <div class="my-3">
             <button class="btn btn-primary mx-1" (click)="calculateTotal()">Calcular Valor</button>
-            <button class="btn btn-primary" [disabled]="detailList.length == 0  && !billDate.valid" (click)="modalService.openModal('confirmSubmitBillActionModal')">Generar Factura</button>
+            <button class="btn btn-primary" [disabled]="detailList.length == 0  && !billDate.valid"
+                (click)="modalService.openModal('confirmSubmitBillActionModal')">Generar Factura</button>
         </div>
     </div>
-
 </div>
 
 <!-- Modal confirm action -->
@@ -134,7 +106,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-               
+
                 <div style="font-weight: bold;" class="text-center m-2">
                     <p class="m-2">La factura fue guardada con exito !</p>
                     <i class="bi bi-check-circle" style="font-size: 80px; color: rgb(106, 223, 106)"></i>
@@ -159,7 +131,8 @@
             </div>
             <div class="modal-body">
                 <div class="text-center m-2">
-                    <i class="bi bi-x-circle" style="font-size: 80px; font-weight: bold; color: rgb(223, 106, 106);"></i>
+                    <i class="bi bi-x-circle"
+                        style="font-size: 80px; font-weight: bold; color: rgb(223, 106, 106);"></i>
                     <p style="color: rgb(255, 0, 0);"> Error: Internal Server Error</p>
                     <p> Mensaje: {{ HttpError.message }}</p>
                     <p> Status: {{ HttpError.status }}</p>
@@ -171,4 +144,4 @@
             </div>
         </div>
     </div>
-</div> 
+</div>
