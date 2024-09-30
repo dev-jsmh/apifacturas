@@ -84,7 +84,7 @@ export class BillingDashboardComponent implements OnInit {
           // push the subArray to the main one
           this.values.push(row);
           /// print every row in the console 
-          console.log(row);
+         // console.log(row);
           // add a new column to table
          
           // add row to table directly

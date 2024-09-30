@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { table } from 'console';
 import DataTable from 'datatables.net-dt';
 import { ClientEntity } from 'src/app/models/ClientEntity';
 import { ClientService } from 'src/app/services/client.service';

@@ -1,76 +1,88 @@
 <div class="container-fluid">
-    <button class="btn btn-primary" (click)="goBack()">volver</button>
+    <button class="btn" (click)="goBack()">
+        <i class="bi bi-arrow-left" style="font-size: 40px; font-weight: bold;"></i>
+    </button>
 </div>
+
 <div class="container">
-
-    <h3>Crear Nueva Factura</h3>
-    <div class="row">
-        <div class="mt-3 mb-3 col-md-6">
-            <p><span style="font-weight: bold;">Id: </span>{{ currentClient.id }}</p>
-            <p><span style="font-weight: bold;">Nombres:</span> {{ currentClient.names }}</p>
-            <p><span style="font-weight: bold;">Apellidos:</span> {{ currentClient.lastnames }}</p>
+    <div class="card">
+        <div class="card-header">
+            <h3>Crear Nueva Factura</h3>
         </div>
-        <form class="mt-3 col-md-6">
-            <div class="text-danger" *ngIf="detailsAreEmpty">Debe seleccionar por lo menos un producto !</div>
-            <div class="mb-3">
-                <label style="font-weight: bold;">Fecha</label>
-                <input class="form-control" type="datetime-local" [formControl]="billDate">
-                <div class="text-danger" *ngIf="(billDate.invalid && billDate.touched ) || !DateIsSet">La fecha es
-                    obligatoria</div>
+        <div class="card-body">
+            <div class="row">
+                <div class="mt-3 mb-3 col-md-6">
+                    <p><span style="font-weight: bold;">Id: </span>{{ currentClient.id }}</p>
+                    <p><span style="font-weight: bold;">Nombres:</span> {{ currentClient.names }}</p>
+                    <p><span style="font-weight: bold;">Apellidos:</span> {{ currentClient.lastnames }}</p>
+                </div>
+                <form class="mt-3 col-md-6">
+                    <div class="text-danger" *ngIf="detailsAreEmpty">Debe seleccionar por lo menos un producto !</div>
+                    <div class="mb-3">
+                        <label style="font-weight: bold;">Fecha</label>
+                        <input class="form-control" type="datetime-local" [formControl]="billDate">
+                        <div class="text-danger" *ngIf="(billDate.invalid && billDate.touched ) || !DateIsSet">La fecha
+                            es
+                            obligatoria</div>
+                    </div>
+                    <div class="mb-3">
+                        <p><span style="font-weight: bold;">Subtotal:</span> {{ billSubTotal | number : '1.0-2' }}</p>
+                    </div>
+                    <div class="mb-3 d-flex">
+                        <label style="font-weight: bold;">Descuento</label>
+                        <input class="form-control mx-1" type="number" [formControl]="billDiscount">
+                    </div>
+                    <div class="mb-3">
+                        <p><span style="font-weight: bold">Total Items: </span>{{ billTotalItems }}</p>
+                    </div>
+                    <div class="mb-3">
+                        <p><span style="font-weight: bold;">Total a pagar:</span> {{ billTotal | number : '1.0-2' }}</p>
+                    </div>
+                </form>
             </div>
-            <div class="mb-3">
-                <p><span style="font-weight: bold;">Subtotal:</span> {{ billSubTotal | number : '1.0-2' }}</p>
-            </div>
-            <div class="mb-3 d-flex">
-                <label style="font-weight: bold;">Descuento</label>
-                <input class="form-control mx-1" type="number" [formControl]="billDiscount">
-            </div>
-            <div class="mb-3">
-                <p><span style="font-weight: bold">Total Items: </span>{{ billTotalItems }}</p>
-            </div>
-            <div class="mb-3">
-                <p><span style="font-weight: bold;">Total a pagar:</span> {{ billTotal | number : '1.0-2' }}</p>
-            </div>
-        </form>
-    </div>
-    <div class="container mt-5">
-        <div class="col-md-12 col-lg-8 mb-3">
-            <h4 class="mt-5">Selecionar productos</h4>
-            <!-- component for selecting the products -->
-            <app-option-selector [list]="productList" (onProductSelection)="addToList($event)" ></app-option-selector>
-        </div>
-        <div class="col-md-12 col-lg-8" style="height: 30vh; overflow-y: scroll;">
-            <table class="table table-stripe">
-                <thead>
-                    <tr>
-                        <th scope="col">Nombre</th>
-                        <th scope="col">Modelo</th>
-                        <th scope="col">V.unit</th>
-                        <th scope="col" class="text-center">cantidad</th>
-                        <th scope="col">V.total</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let detail of detailList">
-                        <td>{{ detail.product?.name }}</td>
-                        <td>{{ detail?.product?.model }}</td>
-                        <td>{{ detail!.product!.price | number : '1.0-2' }}</td>
-                        <td>
+            <div class="container col-10">
+                <div class=" mb-3">
+                    <h4 class="mt-2">Selecionar productos</h4>
+                    <!-- component for selecting the products -->
+                    <app-option-selector [list]="productList"
+                        (onProductSelection)="addToList($event)"></app-option-selector>
+                </div>
+                <div style="height: 30vh; overflow-y: scroll; overflow-x: scroll;">
+                    <table class="table table-stripe">
+                        <thead>
+                            <tr>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Modelo</th>
+                                <th scope="col">V.unit</th>
+                                <th scope="col" class="text-center">cantidad</th>
+                                <th scope="col">V.total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let detail of detailList">
+                                <td>{{ detail.product?.name }}</td>
+                                <td>{{ detail?.product?.model }}</td>
+                                <td>{{ detail!.product!.price | number : '1.0-2' }}</td>
+                                <td>
 
-                            <app-add-reduce-detail-quantity [currentTdetail]="detail"
-                                (onDetailChange)="updateDetail($event)"></app-add-reduce-detail-quantity>
+                                    <app-add-reduce-detail-quantity [currentTdetail]="detail"
+                                        (onDetailChange)="updateDetail($event)">
+                                    </app-add-reduce-detail-quantity>
 
-                        </td>
-                        <td>{{ detail.totalValue | number : '1.0-2' }}</td>
-                    </tr>
+                                </td>
+                                <td>{{ detail.totalValue | number : '1.0-2' }}</td>
+                            </tr>
 
-                </tbody>
-            </table>
-        </div>
-        <div class="my-3">
-            <button class="btn btn-primary mx-1" (click)="calculateTotal()">Calcular Valor</button>
-            <button class="btn btn-primary" [disabled]="detailList.length == 0  && !billDate.valid"
-                (click)="modalService.openModal('confirmSubmitBillActionModal')">Generar Factura</button>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+            <div class="my-3">
+                <button class="btn btn-primary mx-1" (click)="calculateTotal()">Calcular Valor</button>
+                <button class="btn btn-primary" [disabled]="detailList.length == 0  && !billDate.valid"
+                    (click)="modalService.openModal('confirmSubmitBillActionModal')">Generar Factura</button>
+            </div>
         </div>
     </div>
 </div>

@@ -3,7 +3,7 @@
 </div>
 
 <div class="container d-flex justify-content-center">
-    <div class="card col-12 mt-3">
+    <div *ngIf="!isDeleted"  class="card col-12 mt-3">
         <div class="card-header">
             <h5>Detalles Del Producto</h5>
         </div>
@@ -49,12 +49,90 @@
 
                     </div>
                 </div>
+               
                 <!-- accion buttons -->
                 <div class="mb-3 mt-3">
                     <a class="btn btn-secondary mx-3" routerLink="../update">Actualizar</a>
+                    <button class="btn btn-danger" (click)="modalService.openModal('confirmProductDeletion')">
+                        <i class="bi bi-trash px-3 py-1"></i>
+                    </button>
                 </div>
             </div>
         </div>
-
     </div>
+     <!-- show in case the product property "isDeleted" equals to true. It means the product has been disable -->
+     <div *ngIf="isDeleted" class="text-center mt-5" style="width: 80%; height: 70vh; font-weight: bold">
+        <img style="width: 100%;" src="../../../assets/images/Product-Not-Found.png" alt="no product found">
+      
+        <h3>Oops El producto no fue encontrado</h3>
+    </div>
+
+</div>
+
+
+
+<div class="modal fade" id="confirmProductDeletion">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content ">
+            <div class="modal-header">
+                Eliminar
+            </div>
+            <div class="modal-body">
+                <h4>¿ Esta seguro de eliminar el producto ?</h4>
+            </div>
+            <div class="modal-footer">
+
+                <button class="btn btn-primary" data-bs-dismiss="modal">No</button>
+                <button class="btn btn-secondary" (click)="onDelete(currentProduct.id! )">si</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- modal with success message -->
+<div class="modal fade" id="successProductDeletion">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content ">
+            <div class="modal-header">
+                <h5> Operación exitosa</h5>
+            </div>
+            <div class="modal-body">
+                <div style="font-weight: bold;" class="text-center m-2">
+                    <p>El producto ha sido eliminado correctamente!</p>
+                    <i class="bi bi-check-circle" style="font-size: 80px; color: rgb(106, 230, 106 )"></i>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+
+                <button class="btn btn-primary"
+                    (click)="modalService.closeAndRedirect('successProductDeletion', '/products')">Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="errorProductDeletion">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content ">
+            <div class="modal-header">
+                <h5>Operación Fallida</h5>
+            </div>
+            <div class="modal-body">
+                <div class="text-center">
+                    <i class="bi bi-x-circle"
+                        style="font-size: 80px; font-weight: bold; color: rgb(223, 106, 106);"></i>
+                    <p>Error: Internal
+                        Server Error</p>
+                    <p> Mensaje: {{ httpError.message }}</p>
+                    <p> Status: {{ httpError.status }}</p>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" data-bs-dismiss="modal">Aceptar</button>
+            </div>
+        </div>
+    </div>
+
 </div>

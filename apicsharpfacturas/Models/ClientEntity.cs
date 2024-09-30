@@ -19,6 +19,8 @@ namespace apicsharpfacturas.Models
         public string? phone { get; set; }
         public string? address { get; set; }
         public List<BillEntity> bills { get; set; }
+        // indicates if a client is no more active in the platform. 
+        // in
 
     }
 }

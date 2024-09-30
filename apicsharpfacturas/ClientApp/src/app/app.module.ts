@@ -31,11 +31,15 @@ import { ClientUpdateComponent } from './clients/client-update/client-update.com
 import { ClientAddProductComponent } from './clients/client-add-product/client-add-product.component';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { OptionSelectorComponent } from './components/option-selector/option-selector.component';
+import { LoginComponent } from './login/login.component';
+import { MainDashboardComponent } from './main-dashboard/main-dashboard.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
+    LoginComponent,
+    MainDashboardComponent,
     HomeComponent,
     SpinnerComponent,
     FetchDataComponent,
@@ -64,42 +68,50 @@ import { OptionSelectorComponent } from './components/option-selector/option-sel
     NgIf,
     NgFor,
     RouterModule.forRoot([
-      { path: '', component: HomeComponent },
-      {
-        path: 'billing-dashboard',
-        children: [
-          { path: '', component: BillingDashboardComponent },
-          { path: 'create', component: BillCreateComponent },
-          { path: ':id/details', component: BillDetailsComponent },
-          { path: ':id/update', component: BillUpdateComponent }
-        ]
-      },
-      {
-        path: 'products',
-        children: [
-          { path: '', component: ProductListComponent },
-          { path: 'create', component: ProductCreateComponent },
-          { path: ':id/details', component: ProductDetailsComponent },
-          { path: ':id/update', component: ProductUpdateComponent },
 
-        ]
-      },
+      { path: '', component: LoginComponent },
       {
-        path: 'clients',
-        children: [
-          { path: '', component: ClientDashboardComponent },
-          { path: 'create', component: ClientCreateComponent },
-          { path: ':id/details', component: ClientDetailsComponent },
-          { path: ':id/update', component: ClientUpdateComponent },
-          { path: ':id/add-product', component: ClientAddProductComponent },
-          { path: ':id/create-new-bill', component: BillCreateComponent },
-          { path: ':id/bills/:id/details', component: BillDetailsComponent }
-      
+        path: 'home',component: MainDashboardComponent,
+         children: [
+          {
+            path: 'billing-dashboard',
+            children: [
+              { path: '', component: BillingDashboardComponent },
+              { path: 'create', component: BillCreateComponent },
+              { path: ':id/details', component: BillDetailsComponent },
+              { path: ':id/update', component: BillUpdateComponent }
+            ]
+          },
+          {
+            path: 'products',
+            children: [
+              { path: '', component: ProductListComponent },
+              { path: 'create', component: ProductCreateComponent },
+              { path: ':id/details', component: ProductDetailsComponent },
+              { path: ':id/update', component: ProductUpdateComponent },
+    
+            ]
+          },
+          {
+            path: 'clients',
+            children: [
+              { path: '', component: ClientDashboardComponent },
+              { path: 'create', component: ClientCreateComponent },
+              { path: ':id/details', component: ClientDetailsComponent },
+              { path: ':id/update', component: ClientUpdateComponent },
+              { path: ':id/add-product', component: ClientAddProductComponent },
+              { path: ':id/create-new-bill', component: BillCreateComponent },
+              { path: ':id/bills/:id/details', component: BillDetailsComponent }
+    
+            ]
+          },
+          {
+            path: '**', redirectTo: 'billing-dashboard'
+          }
         ]
-      },
-      { path: 'fetch-data', component: FetchDataComponent }
-
-    ], {useHash: true})
+      }
+     
+    ], { useHash: true })
   ],
   providers: [],
   bootstrap: [AppComponent]
