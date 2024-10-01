@@ -50,7 +50,7 @@
                 </div>
                 <div class="mb-3">
                     <label>Imagen</label>
-                    <input class="form-control" type="file" (change)="HandleImageUpload($event)" >
+                    <input class="form-control" type="file" (change)="HandleImageUpload($event)" formControlName="image" >
                 </div>
             </form>
             <div class="mb-3">
@@ -106,7 +106,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary"
-                    (click)="modalService.closeAndRedirect('successCreateProductModal', '/products' )">Ok</button>
+                    (click)="modalService.closeAndRedirect('successCreateProductModal', '/home/products' )">Ok</button>
             </div>
         </div>
     </div>

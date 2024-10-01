@@ -4,72 +4,78 @@
     </a>
 </div>
 <div class="container d-flex justify-content-center mt-3">
-    <div class="card col-sm-12 col-md-12 col-lg-8">
+    <div class="card col-12">
 
         <div class="card-body">
-            <!-- client data -->
-            <div class="card mb-3">
-                <div class="card-header">
-                    <h5>Detalles Del Cliente</h5>
-                </div>
-                <div class="card-body">
-                    <p><span style="font-weight: bold;">Id: </span>{{ currentClient.id }}</p>
-                    <p><span style="font-weight: bold;">Nombres:</span> {{ currentClient.names }}</p>
-                    <p><span style="font-weight: bold;">Apellidos:</span> {{ currentClient.lastnames }}</p>
-                    <p><span style="font-weight: bold">Teléfono: </span> {{ currentClient.phone }}</p>
-                    <p><span style="font-weight: bold">Dirección: </span>{{ currentClient.address }}</p>
-                </div>
-                <div class="card-footer">
-                    <a class="btn btn-secondary mx-1" routerLink="../update">Actualizar</a>
-                </div>
-            </div>
-            <!-- table of bills -->
-            <div class="card">
-                <div class="card-header">
-                    <h5>Facturas</h5>
-                </div>
-                <div class="card-body">
-                    <div *ngIf="currentClient.bills?.length == 0" class="mb-3" style="color: rgb(255, 0, 0)">
-                        <p> El cliente aun no tiene Facturas
-                            cree una con el boton de abajo !
-                        </p>
-                        <a class="btn btn-primary m-1" routerLink="../create-new-bill">Crear factura</a>
+            <div class="row justify-content-evenly">
+                <!-- client data -->
+                <div class="card col-lg-4 mb-3">
+                    <div class="card-header">
+                        <h5>Detalles Del Cliente</h5>
                     </div>
-                    <!-- table to show bills of client -->
-                    <table class="table table-striped" id="clientDetailTable">
-                        <thead>
-                            <tr>
-                                <th scope="col">Id Factura</th>
-                                <th scope="col">Fecha</th>
-                                <th scope="col">Sub-Total</th>
-                                <th scope="col">Descuento</th>
-                                <th scope="col">V.total</th>
-                                <th scope="col">Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let bill of currentClient.bills" class="mb-3">
-                                <th scope="col">{{ bill.id }}</th>
-                                <td>{{ bill.date | date : 'medium'}}</td>
-                                <td>${{ bill.subTotal | number : '1.0-5' }}</td>
-                                <td>${{ bill.discount | number :'1.0-5' }}</td>
-
-                                <td>${{ bill.totalValue | number : '1.0-5' }}</td>
-                                <td>
-                                    <a class="btn btn-primary"
-                                        routerLink="/clients/{{clientId}}/bills/{{bill.id}}/details">
-                                        Detalles</a>
-
-                                </td>
-                            </tr>
-                        </tbody>
-
-                    </table>
+                    <div class="card-body">
+                        <p><span style="font-weight: bold;">Id: </span>{{ currentClient.id }}</p>
+                        <p><span style="font-weight: bold;">Nombres:</span> {{ currentClient.names }}</p>
+                        <p><span style="font-weight: bold;">Apellidos:</span> {{ currentClient.lastnames }}</p>
+                        <p><span style="font-weight: bold">Teléfono: </span> {{ currentClient.phone }}</p>
+                        <p><span style="font-weight: bold">Dirección: </span>{{ currentClient.address }}</p>
+                    </div>
+                    <div class="card-footer">
+                        <a class="btn btn-secondary mx-1" routerLink="../update">Actualizar</a>
+                    </div>
                 </div>
+                <!-- table of bills -->
+                <div class="card col-lg-7">
+                    <div class="card-header">
+                        <h5>Facturas</h5>
+                    </div>
+                    <div class="card-body">
+                        <div *ngIf="currentClient.bills?.length == 0" class="mb-3" style="color: rgb(255, 0, 0)">
+                            <p> El cliente aun no tiene Facturas
+                                cree una con el boton de abajo !
+                            </p>
+                            <a class="btn btn-primary m-1" routerLink="../create-new-bill">Crear factura</a>
+                        </div>
+                        <!-- table to show bills of client -->
+                         <div class="table-responsive">
+                            <table class="table table-striped" id="clientDetailTable">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Id Factura</th>
+                                        <th scope="col">Fecha</th>
+                                        <th scope="col">Sub-Total</th>
+                                        <th scope="col">Descuento</th>
+                                        <th scope="col">V.total</th>
+                                        <th scope="col">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let bill of currentClient.bills" class="mb-3">
+                                        <th scope="col">{{ bill.id }}</th>
+                                        <td>{{ bill.date | date : 'medium'}}</td>
+                                        <td>${{ bill.subTotal | number : '1.0-5' }}</td>
+                                        <td>${{ bill.discount | number :'1.0-5' }}</td>
+    
+                                        <td>${{ bill.totalValue | number : '1.0-5' }}</td>
+                                        <td>
+                                            <a class="btn btn-primary"
+                                                routerLink="/home/clients/{{clientId}}/bills/{{bill.id}}/details">
+                                                Detalles</a>
+    
+                                        </td>
+                                    </tr>
+                                </tbody>
+    
+                            </table>
+                         </div>
+                      
+                    </div>
 
 
 
+                </div>
             </div>
+
         </div>
     </div>
 </div>

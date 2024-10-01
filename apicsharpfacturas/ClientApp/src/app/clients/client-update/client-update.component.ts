@@ -25,7 +25,7 @@ export class ClientUpdateComponent {
   // 
   updateInProccess = false;
   // 
-  clientDetailUrl = '/clients/' + this.clientId + '/details';
+  clientDetailUrl = '/home/clients/' + this.clientId + '/details';
 
   // form 
   public updateClientForm: FormGroup = this.fb.group(

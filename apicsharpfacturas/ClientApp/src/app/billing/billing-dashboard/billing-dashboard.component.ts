@@ -80,7 +80,7 @@ export class BillingDashboardComponent implements OnInit {
           row.push(this.billList[index].subTotal);
           row.push(this.billList[index].discount);
           row.push(this.billList[index].totalValue);
-         row.push("<a class='btn btn-primary' href=#/billing-dashboard/" + this.billList[index].id + "/details>detalles</a>");
+         row.push("<a class='btn btn-primary' href=#/home/billing-dashboard/" + this.billList[index].id + "/details>detalles</a>");
           // push the subArray to the main one
           this.values.push(row);
           /// print every row in the console 

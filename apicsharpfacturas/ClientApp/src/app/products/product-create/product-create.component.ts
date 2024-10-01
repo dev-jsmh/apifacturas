@@ -39,7 +39,8 @@ export class ProductCreateComponent {
         "name": ['', Validators.required],
         "model": ['', Validators.required],
         "price": ['', Validators.required],
-        "stock": ['', Validators.required]
+        "stock": ['', Validators.required],
+        "image": []
       }
     );
   }
@@ -60,6 +61,7 @@ export class ProductCreateComponent {
     this.newProduct.model = this.createProductForm.get("model")?.value;
     this.newProduct.price = this.createProductForm.get("price")?.value;
     this.newProduct.stock = this.createProductForm.get("stock")?.value;
+  
     /// form data
 
     // append product data to formData with the image
@@ -69,6 +71,7 @@ export class ProductCreateComponent {
     this.data.set("stock", this.createProductForm.get("stock")?.value);
 
     console.log("sending product to back-end.......");
+    console.log(this.createProductForm.value );
 
     console.log("elementos en el formulario: " + Object.keys(this.data).length);
     console.log("product data: ");
