@@ -33,6 +33,7 @@ import { SpinnerComponent } from './components/spinner/spinner.component';
 import { OptionSelectorComponent } from './components/option-selector/option-selector.component';
 import { LoginComponent } from './login/login.component';
 import { MainDashboardComponent } from './main-dashboard/main-dashboard.component';
+import { authGuardGuard } from 'src/app/guards/auth-guard.guard';
 
 
 @NgModule({
@@ -71,6 +72,7 @@ import { MainDashboardComponent } from './main-dashboard/main-dashboard.componen
 
       { path: '', component: LoginComponent },
       {
+        canActivate: [authGuardGuard],
         path: 'home',component: MainDashboardComponent,
          children: [
           {
